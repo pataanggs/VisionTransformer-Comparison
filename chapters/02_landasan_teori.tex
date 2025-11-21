@@ -1,68 +1,385 @@
 % BAB II - LANDASAN TEORI
 \section{Landasan Teori}
 
-\subsection{Transformer dan Self-Attention}
-% Tulis penjelasan singkat tentang Transformer dan Self-Attention di sini
-% Contoh:
-% Transformer adalah arsitektur neural network yang diperkenalkan oleh Vaswani et al. (2017) dalam paper "Attention is All You Need"...
-% 
-% Self-attention mechanism memungkinkan model untuk...
+\subsection{Transformer dan Mekanisme Self-Attention}
 
-\subsection{Arsitektur Model yang Dibandingkan}
+\subsubsection{Arsitektur Transformer}
 
-\subsubsection{Model 1: [Nama Model]}
-% Deskripsi arsitektur model pertama
-% Contoh: Vision Transformer (ViT)
-% - Struktur patch embedding
-% - Jumlah transformer blocks
-% - Dimensi hidden layer
-% - dll.
+Transformer adalah arsitektur neural network yang diperkenalkan oleh Vaswani et al. \cite{vaswani2017attention} pada tahun 2017, yang pertama kali dirancang untuk tugas pemrosesan bahasa alami. Berbeda dengan arsitektur sekuensial seperti Recurrent Neural Networks (RNN) dan Long Short-Term Memory (LSTM), Transformer menghilangkan mekanisme rekurensi dan konvolusi, sepenuhnya bergantung pada mekanisme \textit{attention} untuk menangkap dependensi global antara input dan output.
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=0.3\textwidth]{Figure/transformer_1.pdf}
+    \caption{Arsitektur Transformer dengan encoder dan decoder. Sumber: Vaswani et al. \cite{vaswani2017attention}}
+    \label{fig:transformer_arch}
+\end{figure}
 
-\subsubsection{Model 2: [Nama Model]}
-% Deskripsi arsitektur model kedua
-% Contoh: DeiT (Data-efficient Image Transformer)
+Arsitektur Transformer terdiri dari dua komponen utama: \textit{encoder} dan \textit{decoder}. Encoder memproses input sequence dan menghasilkan representasi abstrak, sementara decoder menggunakan representasi tersebut untuk menghasilkan output sequence. Namun, untuk aplikasi \textit{computer vision} seperti klasifikasi gambar, umumnya hanya komponen encoder yang digunakan.
 
-\subsubsection{Model 3: [Nama Model]}
-% Deskripsi arsitektur model ketiga
-% Contoh: Swin Transformer
+\subsubsection{Mekanisme Self-Attention}
 
-% Tambahkan model lain sesuai kebutuhan
+Inti dari arsitektur Transformer adalah mekanisme \textit{self-attention}, yang memungkinkan model untuk mempertimbangkan seluruh sequence input secara simultan dan menghitung representasi setiap elemen berdasarkan hubungannya dengan semua elemen lain dalam sequence. Secara matematis, mekanisme attention didefinisikan sebagai:
+\begin{equation}
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\end{equation}
 
-\subsection{Perbedaan Kunci Antar Model}
-% Tulis perbedaan kunci antara model-model yang dibandingkan
-% Contoh:
-% \begin{itemize}
-%     \item \textbf{Patch Size}: ViT menggunakan patch 16x16, sedangkan...
-%     \item \textbf{Attention Mechanism}: Swin Transformer menggunakan shifted window attention...
-%     \item \textbf{Training Strategy}: DeiT menggunakan distillation token...
-% \end{itemize}
+di mana $Q$ (Query), $K$ (Key), dan $V$ (Value) adalah matriks yang diproyeksikan dari input, dan $d_k$ adalah dimensi dari key vector. Operasi ini menghitung \textit{attention weights} yang menunjukkan seberapa besar setiap elemen dalam sequence harus memperhatikan elemen lainnya.
 
-\subsection{Kelebihan dan Kekurangan Masing-Masing Model}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figure/transformer_self-attention_visualization.pdf}
+    \caption{Visualisasi mekanisme self-attention pada Transformer untuk tugas pemrosesan bahasa.}
+\end{figure}
 
-\subsubsection{Model 1}
-\textbf{Kelebihan:}
+
+\subsubsection{Multi-Head Attention}
+
+Untuk meningkatkan kemampuan model dalam menangkap berbagai jenis hubungan, Transformer menggunakan \textit{multi-head attention}, yang menerapkan mekanisme attention secara paralel dengan beberapa set parameter yang berbeda (\textit{heads}):
+
+\begin{equation}
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O
+\end{equation}
+
+\begin{equation}
+\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\end{equation}
+
+di mana $W_i^Q$, $W_i^K$, $W_i^V$, dan $W^O$ adalah parameter yang dapat dipelajari. Setiap \textit{head} dapat mempelajari aspek yang berbeda dari hubungan antar elemen, seperti informasi posisi, semantik, atau sintaksis.
+
+\subsubsection{Position Encoding}
+
+Karena mekanisme self-attention tidak memiliki informasi tentang urutan atau posisi elemen dalam sequence, Transformer menggunakan \textit{positional encoding} untuk menyediakan informasi posisi. Positional encoding ditambahkan ke input embeddings sebelum diproses oleh encoder. Vaswani et al. \cite{vaswani2017attention} mengusulkan penggunaan fungsi sinusoidal:
+
+\begin{equation}
+PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)
+\end{equation}
+
+\begin{equation}
+PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
+\end{equation}
+
+di mana $pos$ adalah posisi dan $i$ adalah dimensi. Alternatifnya, beberapa implementasi menggunakan \textit{learned positional embeddings} yang dipelajari selama training.
+
+\subsection{Vision Transformer (ViT)}
+
+\subsubsection{Arsitektur Umum}
+
+Vision Transformer (ViT), yang diperkenalkan oleh Dosovitskiy et al. \cite{dosovitskiy2020image}, merupakan adaptasi langsung dari arsitektur Transformer untuk domain visi komputer. ViT mendemonstrasikan bahwa arsitektur transformer murni, tanpa menggunakan konvolusi, dapat mencapai atau bahkan melampaui performa \textit{state-of-the-art} CNN pada tugas klasifikasi gambar, terutama ketika dilatih pada dataset berskala besar.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Figure/vision-transformer-vit.pdf}
+    \caption{Arsitektur Vision Transformer (ViT).}
+    \label{fig:vit_arch}
+\end{figure}
+
+\subsubsection{Patch Embedding}
+
+Berbeda dengan pemrosesan teks yang secara natural berupa sequence of tokens, gambar perlu ditransformasi menjadi format yang sesuai untuk Transformer. ViT membagi gambar berukuran $H \times W \times C$ menjadi sequence of patches berukuran $P \times P$, menghasilkan $N = HW/P^2$ patches. Setiap patch kemudian di-flatten dan diproyeksikan ke dimensi $D$ menggunakan linear projection:
+
+\begin{equation}
+\mathbf{z}_0 = [\mathbf{x}_{\text{class}}; \mathbf{x}_p^1\mathbf{E}; \mathbf{x}_p^2\mathbf{E}; ...; \mathbf{x}_p^N\mathbf{E}] + \mathbf{E}_{pos}
+\end{equation}
+
+di mana $\mathbf{E} \in \mathbb{R}^{(P^2 \cdot C) \times D}$ adalah matriks embedding, $\mathbf{x}_p^i$ adalah patch ke-$i$, dan $\mathbf{E}_{pos} \in \mathbb{R}^{(N+1) \times D}$ adalah positional embeddings. Token khusus $\mathbf{x}_{\text{class}}$ ditambahkan di awal sequence, yang representasinya pada output akan digunakan untuk klasifikasi.
+
+\subsubsection{Transformer Encoder}
+
+Setelah patch embedding, sequence diproses oleh $L$ layer Transformer encoder. Setiap layer terdiri dari:
+
+\begin{enumerate}
+    \item \textbf{Multi-Head Self-Attention (MSA)}: Memungkinkan setiap patch untuk berkomunikasi dengan semua patch lainnya
+    \item \textbf{Layer Normalization (LN)}: Normalisasi untuk stabilitas training
+    \item \textbf{Multi-Layer Perceptron (MLP)}: Two-layer feed-forward network dengan GELU activation
+    \item \textbf{Residual Connections}: Skip connections untuk aliran gradien yang lebih baik
+\end{enumerate}
+
+Secara matematis, untuk layer ke-$\ell$:
+
+\begin{equation}
+\mathbf{z}'_\ell = \text{MSA}(\text{LN}(\mathbf{z}_{\ell-1})) + \mathbf{z}_{\ell-1}
+\end{equation}
+
+\begin{equation}
+\mathbf{z}_\ell = \text{MLP}(\text{LN}(\mathbf{z}'_\ell)) + \mathbf{z}'_\ell
+\end{equation}
+
+\subsubsection{Classification Head}
+
+Output dari class token pada layer terakhir $\mathbf{z}_L^0$ digunakan sebagai representasi gambar dan diproses oleh classification head (typically an MLP) untuk menghasilkan prediksi kelas:
+
+\begin{equation}
+\mathbf{y} = \text{LN}(\mathbf{z}_L^0) \mathbf{W}_{\text{head}}
+\end{equation}
+
+di mana $\mathbf{W}_{\text{head}} \in \mathbb{R}^{D \times K}$ adalah weight matrix untuk $K$ kelas.
+
+\subsubsection{Varian ViT}
+
+Dosovitskiy et al. \cite{dosovitskiy2020image} memperkenalkan tiga varian utama ViT berdasarkan ukuran model:
+
 \begin{itemize}
-    \item % Kelebihan 1
-    \item % Kelebihan 2
+    \item \textbf{ViT-Base}: 12 layers, hidden size 768, 12 attention heads ($\sim$86M parameters)
+    \item \textbf{ViT-Large}: 24 layers, hidden size 1024, 16 attention heads ($\sim$307M parameters)
+    \item \textbf{ViT-Huge}: 32 layers, hidden size 1280, 16 attention heads ($\sim$632M parameters)
 \end{itemize}
 
-\textbf{Kekurangan:}
+\subsection{Swin Transformer}
+
+\subsubsection{Motivasi dan Konsep Utama}
+
+Swin Transformer, yang diperkenalkan oleh Liu et al. \cite{liu2021swin}, mengatasi beberapa keterbatasan ViT, terutama terkait efisiensi komputasi dan kemampuan untuk menangkap informasi multi-skala. Nama "Swin" merupakan singkatan dari \textit{Shifted Windows}, yang merujuk pada mekanisme kunci dari arsitektur ini.
+
+Dua inovasi utama Swin Transformer adalah:
+\begin{enumerate}
+    \item \textbf{Hierarchical Feature Maps}: Seperti CNN, Swin Transformer membangun representasi hierarkis dengan resolusi yang menurun secara bertahap
+    \item \textbf{Shifted Window Attention}: Menghitung self-attention dalam window lokal yang bergeser antar layer untuk efisiensi dan komunikasi antar-window
+\end{enumerate}
+
+\subsubsection{Hierarchical Architecture}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{Figure/swin-transformer.pdf}
+    \caption{Arsitektur hierarkis Swin Transformer. Sumber: Liu et al. \cite{liu2021swin}}
+    \label{fig:swin_arch}
+\end{figure}
+
+Berbeda dengan ViT yang menggunakan patch size tetap dan menghasilkan feature maps dengan resolusi konstan, Swin Transformer mengadopsi arsitektur hierarkis dengan empat stage. Pada setiap stage, resolusi spasial berkurang setengah melalui \textit{patch merging layer}, sementara jumlah channel meningkat dua kali lipat, mirip dengan arsitektur CNN seperti ResNet \cite{he2016deep}.
+
+Dimulai dengan patch size $4 \times 4$ (lebih kecil dari ViT's $16 \times 16$), input gambar berukuran $H \times W \times 3$ diubah menjadi feature maps berukuran $\frac{H}{4} \times \frac{W}{4} \times C$ pada stage pertama. Pada stage berikutnya, patch merging mengurangi resolusi menjadi $\frac{H}{8} \times \frac{W}{8}$, $\frac{H}{16} \times \frac{W}{16}$, dan $\frac{H}{32} \times \frac{W}{32}$, dengan channel yang meningkat menjadi $2C$, $4C$, dan $8C$ respectively.
+
+\subsubsection{Window-based Multi-Head Self-Attention (W-MSA)}
+
+Untuk mengatasi kompleksitas kuadratik dari global self-attention terhadap ukuran gambar, Swin Transformer membatasi komputasi self-attention dalam window lokal non-overlapping. Dengan membagi feature map menjadi windows berukuran $M \times M$, kompleksitas komputasi untuk gambar dengan $h \times w$ patches menjadi:
+
+\begin{equation}
+\Omega(\text{MSA}) = 4hwC^2 + 2(hw)^2C
+\end{equation}
+
+\begin{equation}
+\Omega(\text{W-MSA}) = 4hwC^2 + 2M^2hwC
+\end{equation}
+
+di mana $C$ adalah dimensi channel. Untuk $M \ll h, w$ (typically $M = 7$), kompleksitas menjadi linear terhadap jumlah patches, bukan kuadratik.
+
+\subsubsection{Shifted Window Multi-Head Self-Attention (SW-MSA)}
+
+Meskipun W-MSA efisien, ia membatasi komunikasi antar-window. Untuk mengatasi ini, Swin Transformer menggunakan strategi \textit{shifted window} yang menggeser window partitioning antara consecutive layers:
+
+\begin{equation}
+\hat{\mathbf{z}}^{\ell} = \text{W-MSA}(\text{LN}(\mathbf{z}^{\ell-1})) + \mathbf{z}^{\ell-1}
+\end{equation}
+
+\begin{equation}
+\mathbf{z}^{\ell} = \text{MLP}(\text{LN}(\hat{\mathbf{z}}^{\ell})) + \hat{\mathbf{z}}^{\ell}
+\end{equation}
+
+\begin{equation}
+\hat{\mathbf{z}}^{\ell+1} = \text{SW-MSA}(\text{LN}(\mathbf{z}^{\ell})) + \mathbf{z}^{\ell}
+\end{equation}
+
+\begin{equation}
+\mathbf{z}^{\ell+1} = \text{MLP}(\text{LN}(\hat{\mathbf{z}}^{\ell+1})) + \hat{\mathbf{z}}^{\ell+1}
+\end{equation}
+
+Window shifting dilakukan dengan menggeser window sebesar $(\lfloor \frac{M}{2} \rfloor, \lfloor \frac{M}{2} \rfloor)$ pixels, yang memungkinkan koneksi antar-window pada layer sebelumnya.
+
+\subsubsection{Relative Position Bias}
+
+Berbeda dengan ViT yang menggunakan absolute positional embeddings, Swin Transformer menggunakan \textit{relative position bias} $B \in \mathbb{R}^{M^2 \times M^2}$ yang ditambahkan ke attention computation:
+
+\begin{equation}
+\text{Attention}(Q, K, V) = \text{SoftMax}\left(\frac{QK^T}{\sqrt{d}} + B\right)V
+\end{equation}
+
+Relative position bias terbukti lebih efektif untuk transfer learning dan dapat beradaptasi dengan resolusi gambar yang berbeda \cite{liu2021swin}.
+
+\subsubsection{Varian Swin Transformer}
+
+Liu et al. \cite{liu2021swin} memperkenalkan empat varian dengan kompleksitas yang berbeda:
+
 \begin{itemize}
-    \item % Kekurangan 1
-    \item % Kekurangan 2
+    \item \textbf{Swin-T (Tiny)}: $C = 96$, layer numbers = $\{2, 2, 6, 2\}$ ($\sim$29M parameters)
+    \item \textbf{Swin-S (Small)}: $C = 96$, layer numbers = $\{2, 2, 18, 2\}$ ($\sim$50M parameters)
+    \item \textbf{Swin-B (Base)}: $C = 128$, layer numbers = $\{2, 2, 18, 2\}$ ($\sim$86M parameters)
+    \item \textbf{Swin-L (Large)}: $C = 192$, layer numbers = $\{2, 2, 18, 2\}$ ($\sim$197M parameters)
 \end{itemize}
 
-\subsubsection{Model 2}
-\textbf{Kelebihan:}
+\subsection{Data-efficient Image Transformer (DeiT)}
+
+\subsubsection{Motivasi dan Kontribusi}
+
+Data-efficient Image Transformer (DeiT), yang dikembangkan oleh Touvron et al. \cite{touvron2021training}, mengatasi salah satu keterbatasan utama ViT: kebutuhan akan data pre-training yang sangat besar. Sementara ViT original memerlukan pre-training pada dataset berskala ratusan juta gambar (JFT-300M), DeiT menunjukkan bahwa Vision Transformer dapat dilatih secara efektif hanya menggunakan ImageNet-1k ($\sim$1.3 juta gambar) melalui strategi training yang carefully designed.
+
+Kontribusi utama DeiT meliputi:
+\begin{enumerate}
+    \item Strategi data augmentation yang agresif
+    \item Regularization techniques yang efektif
+    \item Knowledge distillation melalui distillation token
+    \item Training procedure yang dioptimalkan
+\end{enumerate}
+
+\subsubsection{Arsitektur DeiT}
+
+Dari segi arsitektur, DeiT menggunakan struktur yang sama dengan ViT dengan beberapa modifikasi minor. Namun, DeiT memperkenalkan konsep \textit{distillation token}, sebuah token tambahan selain class token yang khusus didesain untuk knowledge distillation:
+
+\begin{equation}
+\mathbf{z}_0 = [\mathbf{x}_{\text{class}}; \mathbf{x}_{\text{dist}}; \mathbf{x}_p^1\mathbf{E}; ...; \mathbf{x}_p^N\mathbf{E}] + \mathbf{E}_{pos}
+\end{equation}
+
+di mana $\mathbf{x}_{\text{dist}}$ adalah distillation token yang berinteraksi dengan patch embeddings dan class token melalui self-attention layers.
+
+\subsubsection{Knowledge Distillation Strategy}
+
+DeiT menggunakan \textit{distillation} untuk mentransfer pengetahuan dari teacher model (typically a convolutional network seperti RegNetY) ke student model (Vision Transformer). Berbeda dengan traditional distillation yang hanya menggunakan soft labels dari teacher, DeiT menggunakan \textit{hard-label distillation} yang terbukti lebih efektif untuk Vision Transformers.
+
+Fungsi loss untuk training adalah kombinasi dari tiga komponen:
+
+\begin{equation}
+\mathcal{L}_{\text{global}} = (1 - \lambda)\mathcal{L}_{CE}(\psi(Z_s), y) + \lambda\mathcal{L}_{CE}(\psi(Z_s), y_t)
+\end{equation}
+
+di mana $\mathcal{L}_{CE}$ adalah cross-entropy loss, $\psi$ adalah softmax function, $Z_s$ adalah logits dari student, $y$ adalah ground-truth label, $y_t$ adalah prediction dari teacher, dan $\lambda$ adalah balancing parameter.
+
+Untuk distillation token, loss tambahan ditambahkan:
+
+\begin{equation}
+\mathcal{L}_{\text{distill}} = \mathcal{L}_{CE}(\psi(Z_{\text{dist}}), y_t)
+\end{equation}
+
+Inference dapat menggunakan rata-rata dari kedua classifiers atau hanya salah satu, tergantung pada preferensi accuracy-speed trade-off.
+
+\subsubsection{Training Strategy}
+
+Keberhasilan DeiT sangat bergantung pada training strategy yang carefully tuned \cite{touvron2021training}:
+
+\begin{enumerate}
+    \item \textbf{Data Augmentation}: 
+    \begin{itemize}
+        \item Auto-Augment atau RandAugment
+        \item Random Erasing
+        \item CutMix dan Mixup dengan probabilitas tinggi
+    \end{itemize}
+    
+    \item \textbf{Regularization}:
+    \begin{itemize}
+        \item Stochastic Depth (drop path)
+        \item Label smoothing
+        \item Weight decay
+    \end{itemize}
+    
+    \item \textbf{Optimization}:
+    \begin{itemize}
+        \item AdamW optimizer
+        \item Cosine learning rate schedule dengan warmup
+        \item Gradient clipping
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Varian DeiT}
+
+Touvron et al. \cite{touvron2021training} memperkenalkan beberapa varian dengan ukuran berbeda:
+
 \begin{itemize}
-    \item % Kelebihan 1
-    \item % Kelebihan 2
+    \item \textbf{DeiT-Tiny}: 12 layers, hidden size 192, 3 heads ($\sim$5M parameters)
+    \item \textbf{DeiT-Small}: 12 layers, hidden size 384, 6 heads ($\sim$22M parameters)
+    \item \textbf{DeiT-Base}: 12 layers, hidden size 768, 12 heads ($\sim$86M parameters)
 \end{itemize}
 
-\textbf{Kekurangan:}
-\begin{itemize}
-    \item % Kekurangan 1
-    \item % Kekurangan 2
-\end{itemize}
+Setiap varian juga memiliki versi distilled (dengan suffix $\uparrow$) yang menggunakan distillation token.
 
-% Tambahkan untuk model lainnya
+\subsection{Perbandingan Arsitektur}
+
+Tabel \ref{tab:architecture_comparison} merangkum perbedaan kunci antara ketiga arsitektur Vision Transformer yang dibandingkan dalam eksperimen ini.
+
+\begin{table}[H]
+\centering
+\caption{Perbandingan Arsitektur Vision Transformer}
+\label{tab:architecture_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Aspek} & \textbf{ViT} & \textbf{Swin Transformer} & \textbf{DeiT} \\ 
+\midrule
+\textbf{Patch Size} & $16 \times 16$ & $4 \times 4$ (initial) & $16 \times 16$ \\
+\textbf{Attention Scope} & Global & Local (windowed) & Global \\
+\textbf{Architecture Type} & Flat (single scale) & Hierarchical (multi-scale) & Flat (single scale) \\
+\textbf{Complexity} & $O(n^2)$ & $O(n)$ & $O(n^2)$ \\
+\textbf{Position Encoding} & Absolute learnable & Relative bias & Absolute learnable \\
+\textbf{Inductive Bias} & Minimal & Moderate (locality) & Minimal \\
+\textbf{Pre-training Data} & JFT-300M / ImageNet-21k & ImageNet-1k/21k & ImageNet-1k \\
+\textbf{Training Strategy} & Standard & Standard & Distillation + augmentation \\
+\textbf{Special Tokens} & [CLS] token & None & [CLS] + [DIST] tokens \\
+\textbf{Window Size} & N/A & $7 \times 7$ typical & N/A \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Kelebihan dan Kekurangan}
+
+Tabel \ref{tab:advantages_disadvantages} merangkum kelebihan dan kekurangan teoritis dari masing-masing arsitektur berdasarkan desain dan karakteristik mereka.
+
+\begin{table}[H]
+\centering
+\caption{Kelebihan dan Kekurangan Masing-masing Arsitektur}
+\label{tab:advantages_disadvantages}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{@{}p{2.5cm}p{6cm}p{6cm}@{}}
+\toprule
+\textbf{Model} & \textbf{Kelebihan} & \textbf{Kekurangan} \\ 
+\midrule
+\textbf{ViT} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Arsitektur sederhana dan elegan
+    \item Global receptive field dari layer pertama
+    \item Excellent scalability dengan data
+    \item Strong performance pada dataset besar
+    \item Mudah diimplementasikan dan dipahami
+\end{itemize} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Memerlukan data pre-training sangat besar
+    \item Kompleksitas kuadratik terhadap jumlah patches
+    \item Kurang efisien untuk high-resolution images
+    \item Tidak capture hierarchical features
+    \item Sulit dilatih dari scratch pada dataset kecil
+\end{itemize} \\
+\midrule
+\textbf{Swin Transformer} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Kompleksitas linear terhadap image size
+    \item Hierarchical features untuk multi-scale tasks
+    \item Efisien untuk high-resolution images
+    \item Dapat digunakan sebagai backbone umum
+    \item Balance antara locality dan global modeling
+    \item Lebih baik untuk dense prediction tasks
+\end{itemize} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Arsitektur lebih kompleks
+    \item Window shifting menambah overhead
+    \item Implementasi lebih challenging
+    \item Relative position bias perlu careful tuning
+    \item Sedikit lebih lambat dalam inference per layer
+\end{itemize} \\
+\midrule
+\textbf{DeiT} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Data-efficient (dapat dilatih pada ImageNet-1k)
+    \item Tidak memerlukan pre-training ekstensif
+    \item Knowledge distillation meningkatkan performa
+    \item Training procedure yang well-documented
+    \item Arsitektur sama dengan ViT (familiar)
+    \item Cocok untuk practitioners dengan data terbatas
+\end{itemize} & 
+\begin{itemize}[leftmargin=*,nosep]
+    \item Memerlukan teacher model yang kuat
+    \item Training lebih kompleks (distillation)
+    \item Augmentation strategy sangat aggressive
+    \item Hyperparameter tuning lebih sensitif
+    \item Inference dapat lebih lambat (dua classifiers)
+    \item Masih memiliki kompleksitas kuadratik
+\end{itemize} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

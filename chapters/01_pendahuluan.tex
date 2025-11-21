@@ -2,21 +2,81 @@
 \section{Pendahuluan}
 
 \subsection{Latar Belakang}
-% Tulis latar belakang pentingnya Vision Transformer di sini
-% Contoh:
-% Vision Transformer (ViT) telah merevolusi bidang computer vision dengan menerapkan arsitektur transformer yang awalnya sukses di Natural Language Processing (NLP)...
+
+Dalam 20 tahun terakhir, \textit{Convolutional Neural Networks} (CNN) sudah jadi raja di dunia \textit{computer vision}. CNN berhasil menyelesaikan berbagai tugas seperti klasifikasi gambar, deteksi objek, dan segmentasi dengan performa yang sangat baik \cite{krizhevsky2012imagenet, he2016deep}. Tapi ternyata, CNN punya kelemahan juga. Arsitekturnya yang bergantung pada konvolusi lokal membuat CNN kurang efektif dalam menangkap hubungan antar bagian gambar yang jaraknya jauh (\textit{long-range dependencies}).
+
+Nah, kesuksesan \textit{Transformer} di bidang \textit{Natural Language Processing} (NLP) \cite{vaswani2017attention} membuat para peneliti bertanya-tanya: "Kenapa nggak coba pakai \textit{Transformer} buat gambar juga?". Di tahun 2020, Dosovitskiy dan timnya memperkenalkan \textit{Vision Transformer} (ViT) \cite{dosovitskiy2020image}. Hasilnya cukup mengejutkan bahwa ternyata \textit{transformer} murni tanpa konvolusi bisa mencapai hasil yang setara atau bahkan lebih baik dari CNN terbaik, terutama kalau dilatih dengan dataset besar seperti ImageNet-21k dan JFT-300M.
+
+Cara kerja Vision Transformer sebenarnya cukup sederhana. Gambar dipotong-potong jadi \textit{patches} berukuran kecil, lalu setiap \textit{patch} diperlakukan seperti kata-kata dalam kalimat. Dengan mekanisme \textit{self-attention}, model bisa "melihat" hubungan antar \textit{patches} di seluruh gambar sekaligus. Ini berbeda dengan CNN yang hanya bisa melihat area lokal di sekitarnya. Pendekatan ini memberikan fleksibilitas lebih dalam memahami konteks global dari sebuah gambar.
+
+Kesuksesan ViT memicu banyak inovasi baru. Liu dan timnya mengembangkan \textit{Swin Transformer} \cite{liu2021swin} yang lebih efisien dengan menggunakan \textit{shifted window attention} dan arsitektur hierarkis untuk menangkap informasi di berbagai skala. Touvron dkk. membuat \textit{Data-efficient Image Transformer} (DeiT) \cite{touvron2021training} yang bisa dilatih dengan efisien pada dataset yang lebih kecil seperti ImageNet-1k dengan memanfaatkan teknik \textit{knowledge distillation}. Sementara He dkk. mengusulkan \textit{Masked Autoencoder} (MAE) \cite{he2022masked} yang belajar dengan cara merekonstruksi bagian gambar yang disembunyikan.
+
+Setiap varian Vision Transformer ini punya kelebihan dan kekurangannya masing-masing. Ada yang lebih akurat tapi berat komputasinya, ada yang lebih cepat tapi butuh data lebih banyak. Makanya penting banget buat saya memahami karakteristik masing-masing model supaya bisa pilih yang paling cocok untuk kebutuhan.
 
 \subsection{Motivasi Perbandingan Model}
-% Tulis motivasi perbandingan model di sini
-% Contoh:
-% Terdapat berbagai varian arsitektur Vision Transformer yang telah dikembangkan, masing-masing dengan trade-off antara akurasi, efisiensi komputasi, dan kecepatan inferensi...
+
+Walaupun berbagai model Vision Transformer sudah menunjukkan hasil yang bagus di paper-paper penelitian, ada beberapa hal yang perlu diperhatikan untuk aplikasi praktis. Pertama, kebanyakan model ini dievaluasi menggunakan dataset yang sangat besar seperti ImageNet-21k atau JFT-300M. Masalahnya, dataset sebesar itu nggak selalu tersedia atau praktis dipakai di dunia nyata. Kedua, jarang ada penelitian yang membandingkan secara lengkap antara akurasi, ukuran model, dan kecepatan inferensi dalam satu eksperimen yang terkontrol.
+
+Di praktiknya, memilih model bukan cuma soal akurasi tertinggi. Ada banyak faktor lain yang perlu dipertimbangkan:
+
+\begin{enumerate}
+    \item \textbf{Efisiensi Komputasi}: Berapa banyak parameter dan operasi yang dibutuhkan? Ini penting banget kalau mau deploy di perangkat dengan sumber daya terbatas seperti smartphone atau perangkat IoT.
+    
+    \item \textbf{Kecepatan Inferensi}: Berapa lama waktu yang dibutuhkan untuk memproses satu gambar? Kalau aplikasinya butuh real-time seperti autonomous driving atau video surveillance, kecepatan adalah hal yang sangat krusial.
+    
+    \item \textbf{Efisiensi Data}: Seberapa banyak data yang dibutuhkan untuk training? Mengumpulkan dan memberi label pada data berskala besar itu mahal dan memakan banyak waktu
+    
+    \item \textbf{Kemudahan Implementasi}: Seberapa mudah model di-\textit{fine-tune} untuk domain spesifik? Beberapa arsitektur lebih mudah di-training ulang daripada yang lain.
+\end{enumerate}
 
 \subsection{Tujuan Eksperimen}
-% Tulis tujuan eksperimen di sini
-% Contoh:
-% Eksperimen ini bertujuan untuk:
-% \begin{enumerate}
-%     \item Membandingkan performa berbagai model Vision Transformer
-%     \item Menganalisis trade-off antara akurasi, jumlah parameter, dan waktu inferensi
-%     \item Memberikan rekomendasi model yang sesuai untuk berbagai use case
-% \end{enumerate}
+
+Eksperimen ini bertujuan untuk membandingkan secara sistematis tiga arsitektur Vision Transformer yang berbeda. Secara spesifik, tujuannya adalah:
+
+\begin{enumerate}
+    \item \textbf{Membandingkan Arsitektur Model}
+    \begin{itemize}
+        \item Melihat perbedaan mendasar dalam desain arsitektur antara ViT, Swin Transformer, dan DeiT
+        \item Memahami bagaimana pilihan desain mempengaruhi karakteristik model
+        \item Mengidentifikasi kelebihan dan kekurangan masing-masing pendekatan
+    \end{itemize}
+    
+    \item \textbf{Mengevaluasi Performa}
+    \begin{itemize}
+        \item Mengukur dan membandingkan akurasi pada dataset test
+        \item Menghitung metrik evaluasi seperti precision, recall, dan F1-score
+        \item Menganalisis \textit{confusion matrix} untuk melihat di mana model sering salah
+        \item Membandingkan kurva pembelajaran selama training
+    \end{itemize}
+    
+    \item \textbf{Menganalisis Efisiensi}
+    \begin{itemize}
+        \item Menghitung jumlah parameter dan ukuran model
+        \item Membandingkan kompleksitas komputasi dari masing-masing arsitektur
+        \item Melihat trade-off antara ukuran model dan akurasi yang dicapai
+    \end{itemize}
+    
+    \item \textbf{Mengukur Kecepatan}
+    \begin{itemize}
+        \item Mengukur waktu inferensi rata-rata per gambar
+        \item Menghitung berapa gambar yang bisa diproses per detik
+        \item Melihat apakah model cocok untuk aplikasi real-time atau tidak
+    \end{itemize}
+    
+    \item \textbf{Analisis Trade-off}
+    \begin{itemize}
+        \item Menganalisis hubungan antara akurasi, jumlah parameter, dan kecepatan
+        \item Mengidentifikasi model mana yang paling efisien
+        \item Mengevaluasi trade-off untuk berbagai skenario penggunaan
+    \end{itemize}
+    
+    \item \textbf{Memberikan Rekomendasi}
+    \begin{itemize}
+        \item Merekomendasikan model terbaik untuk akurasi maksimal
+        \item Merekomendasikan model terbaik untuk aplikasi dengan resource terbatas
+        \item Merekomendasikan model terbaik untuk aplikasi real-time
+        \item Memberikan panduan pemilihan model berdasarkan kebutuhan spesifik
+    \end{itemize}
+\end{enumerate}
+
+Dengan mencapai tujuan-tujuan di atas, diharapkan eksperimen ini bisa memberikan pemahaman yang lebih baik tentang karakteristik masing-masing arsitektur Vision Transformer, sekaligus memberikan panduan praktis untuk memilih model yang paling sesuai dengan kebutuhan

@@ -5,16 +5,21 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%% PACKAGE starts HERE %%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
+\usepackage{svg}
 \usepackage{caption}
 \usepackage{microtype}
 \captionsetup[table]{name=Tabel}
 \captionsetup[figure]{name=Gambar}
 \usepackage{tabulary}
 \usepackage{minted}
-% \usepackage{amsmath}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{threeparttable}
 \usepackage{fancyhdr}
-% \usepackage{amssymb}
-% \usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{placeins}
 % \usepackage{amsfonts}
 \usepackage{graphicx}
@@ -70,7 +75,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%% Data Diri %%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\student}{\textbf{Fathan Andi Kartagama(122140055)}}
 \newcommand{\course}{\textbf{Pembelajaran Mendalam (IF25-40401)}}
-\newcommand{\assignment}{\textbf{Tugas Eksplorasi Vision Transformer}}
+\newcommand{\assignment}{\textbf{Eksplorasi Vision Transformer}}
+\newcommand{\lecturerA}{\textbf{Imam Eko Wicaksono, S.Si., M.Si.}}
+\newcommand{\lecturerB}{\textbf{Martin Clinton Tosima Manullang, S.T., M.T., Ph.D.}}
 
 %%%%%%%%%%%%%%%%%%% using theorem style %%%%%%%%%%%%%%%%%%%%
 \newtheorem{thm}{Theorem}
@@ -86,11 +93,11 @@
 \pagestyle{fancy}
 \lhead{Fathan Andi Kartagama (122140055)}
 \rhead{ \thepage}
-\cfoot{\textbf{Tugas Eksplorasi Vision Transformer}}
+\cfoot{\textbf{Eksplorasi Vision Transformer}}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-%%%%%%%%%%%%%%  Shortcut for usual set of numbers  %%%%%%%%%%%
+%%%%%%%%%%%%%%  Shortcut for usual set of numberss  %%%%%%%%%%%
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -125,7 +132,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DAFTAR PUSTAKA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \bibliographystyle{IEEEtran}
-\bibliography{Referensi}
+\bibliography{Referensi.bib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAMPIRAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

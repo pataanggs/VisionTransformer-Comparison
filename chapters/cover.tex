@@ -1,12 +1,32 @@
-% COVER PAGE
 \thispagestyle{empty}
+
 \begin{center}
-	\includegraphics[scale = 0.15]{Figure/ifitera-header.png}
-	\vspace{0.1cm}
+    \includegraphics[scale=0.15]{Figure/ifitera-header.png}
+    \vspace{0.1cm}
 \end{center}
+
 \noindent
-\rule{17cm}{0.2cm}\\[0.3cm]
-Nama: \student \hfill \assignment\\[0.1cm]
-Mata Kuliah: \course \hfill Tanggal: \today \\
-\rule{17cm}{0.05cm}
+\rule{\textwidth}{1pt} \\[0.1cm] % Garis atas tebal
+\noindent
+\begin{tabular}{@{}p{3.5cm} p{0.2cm} p{12cm}@{}}
+    Nama           & : & \student \hfill \\
+    Mata Kuliah    & : & \course \\
+    Tugas          & : & \assignment \\
+    Dosen Pengampu & : & \parbox[t]{11cm}{
+                            1. \lecturerA \\
+                            2. \lecturerB
+                         } \\
+    Tanggal        & : & \today
+\end{tabular} \\[-0.1cm]
+\rule{\textwidth}{1pt} % Garis bawah tebal
 \vspace{0.1cm}
+
+% --- Judul Laporan ---
+\vspace{3cm}
+\begin{center}
+    {\LARGE \textbf{LAPORAN TUGAS EKSPLORASI}} \\
+    \vspace{0.8cm}
+    {\Large \textbf{Perbandingan Model Vision Transformer,}} \\
+    {\Large \textbf{Swin Transformer, dan DeiT Base}}
+\end{center}
+\vfill
