@@ -1,0 +1,134 @@
+\documentclass[11pt,a4paper]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%% Credit %%%%%%%%%%%%%%%%%%%%%%%%
+
+% template ini dibuat oleh martin.manullang@if.itera.ac.id untuk dipergunakan oleh seluruh sivitas akademik itera.
+
+%%%%%%%%%%%%%%%%%%%%%%%%% PACKAGE starts HERE %%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{microtype}
+\captionsetup[table]{name=Tabel}
+\captionsetup[figure]{name=Gambar}
+\usepackage{tabulary}
+\usepackage{minted}
+% \usepackage{amsmath}
+\usepackage{fancyhdr}
+% \usepackage{amssymb}
+% \usepackage{amsthm}
+\usepackage{placeins}
+% \usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[left=2cm,right=2cm,top=3cm,bottom=2.5cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{psfrag}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
+% Enable inserting code into the document
+\usepackage{listings}
+\usepackage{xcolor} 
+% custom color & style for listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{LightGray}{gray}{0.9}
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{green},
+	keywordstyle=\color{codegreen},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+\lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Kode}
+%%%%%%%%%%%%%%%%%%%%%%%%% PACKAGE ends HERE %%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Data Diri %%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\student}{\textbf{Fathan Andi Kartagama(122140055)}}
+\newcommand{\course}{\textbf{Pembelajaran Mendalam (IF25-40401)}}
+\newcommand{\assignment}{\textbf{Tugas Eksplorasi Vision Transformer}}
+
+%%%%%%%%%%%%%%%%%%% using theorem style %%%%%%%%%%%%%%%%%%%%
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{exa}[thm]{Example}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{coro}[thm]{Corollary}
+\newtheorem{quest}{Question}[section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{lipsum}%% a garbage package you don't need except to create examples.
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Fathan Andi Kartagama (122140055)}
+\rhead{ \thepage}
+\cfoot{\textbf{Tugas Eksplorasi Vision Transformer}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%%%%%%%%%%%%%  Shortcut for usual set of numbers  %%%%%%%%%%%
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\setlength\headheight{14pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COVER PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{chapters/cover}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BODY DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% BAB I - PENDAHULUAN
+\input{chapters/01_pendahuluan}
+
+% BAB II - LANDASAN TEORI
+\input{chapters/02_landasan_teori}
+
+% BAB III - METODOLOGI
+\input{chapters/03_metodologi}
+
+% BAB IV - HASIL DAN ANALISIS
+\input{chapters/04_hasil_analisis}
+
+% BAB V - KESIMPULAN DAN SARAN
+\input{chapters/05_kesimpulan}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DAFTAR PUSTAKA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{Referensi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAMPIRAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{chapters/06_lampiran}
+
+\end{document}

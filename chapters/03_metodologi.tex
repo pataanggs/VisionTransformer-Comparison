@@ -1,0 +1,87 @@
+% BAB III - METODOLOGI
+\section{Metodologi}
+
+\subsection{Dataset}
+% Deskripsi dataset yang digunakan
+% Contoh:
+% Eksperimen ini menggunakan dataset [nama dataset], yang terdiri dari...
+% \begin{itemize}
+%     \item Jumlah kelas: 
+%     \item Jumlah training samples: 
+%     \item Jumlah validation samples: 
+%     \item Jumlah test samples: 
+%     \item Resolusi gambar: 
+% \end{itemize}
+
+\subsection{Preprocessing dan Augmentasi Data}
+% Tulis preprocessing dan augmentasi data yang digunakan
+% Contoh:
+% \subsubsection{Preprocessing}
+% \begin{itemize}
+%     \item Resize ke resolusi 224x224
+%     \item Normalisasi dengan mean=[0.485, 0.456, 0.406] dan std=[0.229, 0.224, 0.225]
+% \end{itemize}
+% 
+% \subsubsection{Augmentasi}
+% \begin{itemize}
+%     \item Random horizontal flip
+%     \item Random rotation (±15 derajat)
+%     \item Random crop
+%     \item Color jitter
+% \end{itemize}
+
+\subsection{Konfigurasi Training}
+% Tulis konfigurasi training di sini
+% Contoh dalam bentuk tabel:
+
+\begin{table}[h]
+\caption{Konfigurasi Training}
+\label{tab:config}
+\centering
+\begin{tabular}{ll}
+\hline
+\textbf{Parameter} & \textbf{Nilai} \\ \hline
+Optimizer & Adam \\
+Learning Rate & 0.001 \\
+Batch Size & 32 \\
+Epochs & 100 \\
+Loss Function & Cross Entropy \\
+Learning Rate Scheduler & CosineAnnealingLR \\
+Weight Decay & 0.0001 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Library dan Framework}
+% Tulis library dan framework yang digunakan
+% Contoh:
+% \begin{itemize}
+%     \item Python 3.8
+%     \item PyTorch 1.12
+%     \item torchvision 0.13
+%     \item timm (PyTorch Image Models)
+%     \item NumPy, Pandas, Matplotlib
+% \end{itemize}
+
+\subsection{Spesifikasi Hardware}
+% Tulis spesifikasi hardware yang digunakan
+% Contoh:
+% \begin{itemize}
+%     \item GPU: NVIDIA RTX 3090 24GB
+%     \item CPU: Intel Core i9-10900K
+%     \item RAM: 64GB DDR4
+%     \item Storage: 1TB NVMe SSD
+% \end{itemize}
+
+\subsection{Metrik Evaluasi}
+% Tulis cara pengukuran metrik evaluasi
+% Contoh:
+% Model dievaluasi menggunakan metrik berikut:
+% \begin{itemize}
+%     \item \textbf{Accuracy}: Persentase prediksi yang benar dari total prediksi
+%     \item \textbf{Precision}: True Positive / (True Positive + False Positive)
+%     \item \textbf{Recall}: True Positive / (True Positive + False Negative)
+%     \item \textbf{F1-Score}: Harmonic mean dari precision dan recall
+%     \item \textbf{Inference Time}: Waktu rata-rata untuk inferensi per gambar
+%     \item \textbf{Parameters}: Jumlah total parameter model
+% \end{itemize}
