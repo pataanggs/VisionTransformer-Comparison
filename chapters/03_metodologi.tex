@@ -1,87 +1,128 @@
-% BAB III - METODOLOGI
 \section{Metodologi}
 
 \subsection{Dataset}
-% Deskripsi dataset yang digunakan
-% Contoh:
-% Eksperimen ini menggunakan dataset [nama dataset], yang terdiri dari...
-% \begin{itemize}
-%     \item Jumlah kelas: 
-%     \item Jumlah training samples: 
-%     \item Jumlah validation samples: 
-%     \item Jumlah test samples: 
-%     \item Resolusi gambar: 
-% \end{itemize}
+Penelitian ini menggunakan dataset \textbf{STL-10}. Dataset ini merupakan dataset standar yang sering digunakan untuk evaluasi algoritma \textit{unsupervised} dan \textit{supervised learning} pada visi komputer. Dataset ini terdiri dari gambar berwarna dengan resolusi asli $96 \times 96$ piksel, namun dalam penelitian ini diubah ukurannya (\textit{resize}) menjadi $224 \times 224$ piksel untuk menyesuaikan dengan input model Vision Transformer.
+
+Detail pembagian data yang digunakan dalam eksperimen ini adalah sebagai berikut:
+\begin{itemize}
+    \item \textbf{Jumlah Kelas}: 10 kelas (\textit{airplane, bird, car, cat, deer, dog, horse, monkey, ship, truck}).
+    \item \textbf{Original Split}: 5.000 gambar \textit{train} dan 8.000 gambar \textit{test}.
+    \item \textbf{Custom Split}: Dalam eksperimen ini, data \textit{train} dibagi kembali menjadi:
+    \begin{itemize}
+        \item \textbf{Training Set}: 4.000 gambar.
+        \item \textbf{Validation Set}: 1.000 gambar (20\% dari data \textit{train} asli).
+    \end{itemize}
+    \item \textbf{Test Set}: 8.000 gambar (menggunakan data \textit{test} asli).
+\end{itemize}
 
 \subsection{Preprocessing dan Augmentasi Data}
-% Tulis preprocessing dan augmentasi data yang digunakan
-% Contoh:
-% \subsubsection{Preprocessing}
-% \begin{itemize}
-%     \item Resize ke resolusi 224x224
-%     \item Normalisasi dengan mean=[0.485, 0.456, 0.406] dan std=[0.229, 0.224, 0.225]
-% \end{itemize}
-% 
-% \subsubsection{Augmentasi}
-% \begin{itemize}
-%     \item Random horizontal flip
-%     \item Random rotation (±15 derajat)
-%     \item Random crop
-%     \item Color jitter
-% \end{itemize}
+Untuk meningkatkan kemampuan generalisasi model dan mencegah \textit{overfitting}, diterapkan teknik \textit{preprocessing} dan augmentasi data.
+
+\subsubsection{Preprocessing}
+Semua data (\textit{train}, \textit{val}, \textit{test}) melalui tahapan berikut:
+\begin{itemize}
+    \item \textbf{Resize}: Mengubah resolusi gambar menjadi $224 \times 224$ piksel (interpolasi bikubik).
+    \item \textbf{ToTensor}: Mengonversi gambar menjadi format Tensor PyTorch.
+    \item \textbf{Normalisasi}: Menormalisasi nilai piksel menggunakan rata-rata (\textit{mean}) $[0.485, 0.456, 0.406]$ dan standar deviasi (\textit{std}) $[0.229, 0.224, 0.225]$, sesuai dengan standar pre-training ImageNet.
+\end{itemize}
+
+\subsubsection{Augmentasi}
+Khusus pada data \textit{training}, diterapkan augmentasi tambahan secara acak setiap kali gambar dimuat:
+\begin{itemize}
+    \item \textbf{Random Horizontal Flip}: Membalik gambar secara horizontal dengan peluang 50\%.
+    \item \textbf{Random Rotation}: Memutar gambar secara acak hingga $\pm 15$ derajat.
+    \item \textbf{Color Jitter}: Mengubah kecerahan (\textit{brightness}) dan kontras (\textit{contrast}) sebesar 0.2.
+\end{itemize}
 
 \subsection{Konfigurasi Training}
-% Tulis konfigurasi training di sini
-% Contoh dalam bentuk tabel:
+Ketiga model (DeiT Base, ViT Base, Swin Base) dilatih menggunakan konfigurasi \textit{hyperparameter} yang sama untuk memastikan perbandingan yang adil. Pelatihan dilakukan menggunakan \textit{fine-tuning} dari bobot \textit{pre-trained} ImageNet.
 
 \begin{table}[h]
-\caption{Konfigurasi Training}
+\caption{Konfigurasi Hyperparameter Training}
 \label{tab:config}
 \centering
 \begin{tabular}{ll}
 \hline
 \textbf{Parameter} & \textbf{Nilai} \\ \hline
-Optimizer & Adam \\
-Learning Rate & 0.001 \\
-Batch Size & 32 \\
-Epochs & 100 \\
-Loss Function & Cross Entropy \\
-Learning Rate Scheduler & CosineAnnealingLR \\
-Weight Decay & 0.0001 \\
+Optimizer & AdamW \\
+Learning Rate & $3 \times 10^{-5}$ (0.00003) \\
+Batch Size & 64 \\
+Epochs & 20 \\
+Loss Function & Cross Entropy Loss \\
+Learning Rate Scheduler & Cosine Annealing LR ($T_{max}=20$) \\
+Weight Decay & 0.05 \\
+Mixed Precision & Ya (menggunakan \texttt{torch.cuda.amp.GradScaler}) \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Library dan Framework}
-% Tulis library dan framework yang digunakan
-% Contoh:
-% \begin{itemize}
-%     \item Python 3.8
-%     \item PyTorch 1.12
-%     \item torchvision 0.13
-%     \item timm (PyTorch Image Models)
-%     \item NumPy, Pandas, Matplotlib
-% \end{itemize}
+Implementasi dan eksperimen dilakukan menggunakan bahasa pemrograman \textbf{Python} dengan bantuan pustaka (\textit{library}) berikut:
+\begin{itemize}
+    \item \textbf{PyTorch}: Framework utama untuk pembangunan arsitektur dan pelatihan model \textit{deep learning}.
+    \item \textbf{torchvision}: Menyediakan dataset STL-10 dan modul transformasi gambar.
+    \item \textbf{timm (PyTorch Image Models)}: Menyediakan implementasi model \textit{state-of-the-art} Vision Transformer (DeiT, ViT, Swin) beserta bobot \textit{pre-trained}-nya.
+    \item \textbf{NumPy \& Pandas}: Digunakan untuk manipulasi data numerik dan pencatatan \textit{log} hasil eksperimen.
+    \item \textbf{Matplotlib \& Seaborn}: Digunakan untuk visualisasi grafik \textit{loss}, akurasi, dan \textit{confusion matrix}.
+    \item \textbf{Scikit-learn}: Digunakan untuk perhitungan metrik evaluasi seperti \textit{classification report} dan \textit{confusion matrix}.
+\end{itemize}
 
 \subsection{Spesifikasi Hardware}
-% Tulis spesifikasi hardware yang digunakan
-% Contoh:
-% \begin{itemize}
-%     \item GPU: NVIDIA RTX 3090 24GB
-%     \item CPU: Intel Core i9-10900K
-%     \item RAM: 64GB DDR4
-%     \item Storage: 1TB NVMe SSD
-% \end{itemize}
+Seluruh proses pelatihan dan evaluasi model dilakukan pada lingkungan komputasi berkinerja tinggi dengan spesifikasi sebagai berikut:
+\begin{itemize}
+    \item \textbf{GPU}: NVIDIA A40 (VRAM 44.42 GB)
+    \item \textbf{CPU}: 96 Cores
+    \item \textbf{RAM}: 50.51 GB
+    \item \textbf{Platform}: Linux (Environment berbasis Cloud/RunPod)
+\end{itemize}
 
 \subsection{Metrik Evaluasi}
-% Tulis cara pengukuran metrik evaluasi
-% Contoh:
-% Model dievaluasi menggunakan metrik berikut:
-% \begin{itemize}
-%     \item \textbf{Accuracy}: Persentase prediksi yang benar dari total prediksi
-%     \item \textbf{Precision}: True Positive / (True Positive + False Positive)
-%     \item \textbf{Recall}: True Positive / (True Positive + False Negative)
-%     \item \textbf{F1-Score}: Harmonic mean dari precision dan recall
-%     \item \textbf{Inference Time}: Waktu rata-rata untuk inferensi per gambar
-%     \item \textbf{Parameters}: Jumlah total parameter model
-% \end{itemize}
+Untuk mengukur kinerja dan efisiensi dari model yang dibandingkan, penelitian ini menggunakan beberapa metrik evaluasi standar dalam klasifikasi gambar.
+
+\subsubsection{Akurasi (Accuracy)}
+Akurasi adalah rasio antara jumlah prediksi yang benar (positif dan negatif) dengan keseluruhan jumlah data. Akurasi dihitung dengan persamaan:
+
+\begin{equation}
+    \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+
+Dimana:
+\begin{itemize}
+    \item $TP$ (\textit{True Positive}): Data positif yang diprediksi benar positif.
+    \item $TN$ (\textit{True Negative}): Data negatif yang diprediksi benar negatif.
+    \item $FP$ (\textit{False Positive}): Data negatif yang diprediksi salah sebagai positif.
+    \item $FN$ (\textit{False Negative}): Data positif yang diprediksi salah sebagai negatif.
+\end{itemize}
+
+\subsubsection{Precision, Recall, dan F1-Score}
+Selain akurasi, digunakan juga metrik \textit{Precision}, \textit{Recall}, dan \textit{F1-Score} untuk memberikan gambaran yang lebih komprehensif, terutama jika terdapat ketidakseimbangan kelas.
+
+\textbf{Precision} mengukur seberapa akurat model dalam memprediksi kelas positif:
+\begin{equation}
+    \text{Precision} = \frac{TP}{TP + FP}
+\end{equation}
+
+\textbf{Recall} (atau Sensitivitas) mengukur kemampuan model untuk menemukan semua data positif yang sebenarnya:
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN}
+\end{equation}
+
+\textbf{F1-Score} adalah rata-rata harmonik dari \textit{Precision} dan \textit{Recall}, yang memberikan keseimbangan antara keduanya:
+\begin{equation}
+    \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+
+\subsubsection{Confusion Matrix}
+\textit{Confusion Matrix} digunakan untuk memvisualisasikan performa model dalam bentuk tabel matriks, yang menunjukkan perbandingan antara label prediksi model dengan label sebenarnya (\textit{ground truth}) untuk setiap kelas.
+
+\subsubsection{Efisiensi Komputasi}
+Selain performa akurasi, efisiensi model juga dievaluasi menggunakan parameter berikut:
+\begin{itemize}
+    \item \textbf{Training Time}: Total waktu yang dibutuhkan untuk melatih model selama jumlah \textit{epoch} yang ditentukan.
+    \item \textbf{Inference Time}: Rata-rata waktu yang dibutuhkan model untuk memproses satu gambar saat pengujian.
+    \item \textbf{Throughput}: Jumlah gambar yang dapat diproses oleh model dalam satu detik, dihitung dengan rumus:
+    \begin{equation}
+        \text{Throughput} = \frac{\text{Jumlah Total Gambar}}{\text{Total Waktu Inferensi (detik)}}
+    \end{equation}
+    \item \textbf{Ukuran Model}: Kompleksitas model diukur berdasarkan jumlah parameter yang dapat dilatih (\textit{trainable parameters}) dan ukuran memori yang dibutuhkan untuk menyimpan bobot model (dalam MB).
+\end{itemize}

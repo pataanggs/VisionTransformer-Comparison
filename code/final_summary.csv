@@ -1,0 +1,4 @@
+Model,Total Params,Size (MB),Training Time (m),Test Accuracy,Macro F1,Infer/Img (ms),Throughput (img/s)
+DeiT Base,"85,806,346",327.33,5.5,98.11%,0.9811,2.56,389.9
+ViT Base,"85,806,346",327.33,5.5,99.08%,0.9907,2.57,388.8
+Swin Base,"86,753,474",332.44,8.5,99.36%,0.9936,3.42,292.6

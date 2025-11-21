@@ -2,39 +2,54 @@
 \section{Kesimpulan dan Saran}
 
 \subsection{Kesimpulan}
-% Kesimpulan hasil perbandingan
-% Contoh:
-% Berdasarkan eksperimen yang telah dilakukan, dapat disimpulkan bahwa:
-% \begin{enumerate}
-%     \item Model A memberikan akurasi tertinggi dengan [nilai]% namun memiliki parameter terbanyak dan waktu inferensi paling lambat
-%     \item Model B menawarkan trade-off terbaik antara akurasi dan efisiensi dengan...
-%     \item Model C paling cocok untuk aplikasi real-time karena waktu inferensi tercepat...
-% \end{enumerate}
 
-\subsection{Rekomendasi Model}
+Berdasarkan eksperimen perbandingan tiga arsitektur Vision Transformer (ViT Base, DeiT Base, dan Swin Base) pada dataset STL-10, dapat disimpulkan bahwa:
 
-\subsubsection{Untuk Akurasi Maksimal}
-% Rekomendasi model untuk akurasi maksimal
-% Contoh:
-% Untuk aplikasi yang mengutamakan akurasi tanpa mempertimbangkan batasan komputasi, \textbf{Model X} direkomendasikan karena...
+\begin{enumerate}
+    \item Ketiga model menunjukkan performa excellent dengan akurasi $>$98\%. Swin Base mencapai akurasi tertinggi (99.36\%, F1: 0.9936), diikuti ViT Base (99.08\%, F1: 0.9907), dan DeiT Base (98.11\%, F1: 0.9811)
+    
+    \item Kompleksitas model hampir setara (85-86 juta parameter, ukuran 327-332 MB), namun terdapat perbedaan signifikan pada efisiensi inferensi: DeiT/ViT Base 33\% lebih cepat (388-389 images/s) dibanding Swin Base (292.6 images/s)
+    
+    \item Swin Base memerlukan waktu pelatihan 54\% lebih lama (8.5 vs 5.5 menit) karena kompleksitas shifted window attention, namun memberikan akurasi terbaik untuk dataset STL-10 dengan resolusi menengah (96$\times$96)
+    
+    \item Terdapat trade-off yang jelas: Swin Base optimal untuk akurasi maksimal, ViT Base menawarkan keseimbangan terbaik, dan DeiT Base unggul dalam kecepatan inferensi
+\end{enumerate}
 
-\subsubsection{Untuk Efisiensi Komputasi}
-% Rekomendasi model untuk efisiensi komputasi
-% Contoh:
-% Untuk aplikasi dengan resource terbatas (edge devices, mobile), \textbf{Model Y} direkomendasikan karena...
+\subsection{Rekomendasi Model Berdasarkan Use Case}
 
-\subsubsection{Untuk Aplikasi Real-time}
-% Rekomendasi model untuk aplikasi real-time
-% Contoh:
-% Untuk aplikasi yang membutuhkan inferensi cepat seperti video processing real-time, \textbf{Model Z} direkomendasikan karena...
+\begin{table}[h]
+\centering
+\caption{Rekomendasi Model untuk Berbagai Aplikasi}
+\label{tab:recommendations}
+\begin{tabular}{p{3.5cm}p{2.5cm}p{7cm}}
+\hline
+\textbf{Prioritas} & \textbf{Model} & \textbf{Use Case \& Alasan} \\ \hline
+\textbf{Akurasi Maksimal} & Swin Base & 
+\textit{Medical imaging, quality control, autonomous driving} 
+Akurasi 99.36\%, confusion matrix terbaik, cocok untuk cloud deployment \\ \hline
+
+\textbf{Efisiensi Optimal} & ViT Base & 
+\textit{E-commerce, content moderation, general CV tasks} 
+Keseimbangan terbaik: akurasi 99.08\% dengan kecepatan tinggi (388.8 img/s) \\ \hline
+
+\textbf{Real-time} & DeiT Base & 
+\textit{Video surveillance, mobile apps, robotics, AR/VR}
+Throughput tertinggi (389.9 img/s), dapat di-deploy pada edge devices\\ \hline
+\end{tabular}
+\end{table}
 
 \subsection{Saran untuk Pengembangan Lebih Lanjut}
-% Saran untuk penelitian atau pengembangan selanjutnya
-% Contoh:
-% \begin{enumerate}
-%     \item Melakukan eksperimen dengan dataset yang lebih besar dan beragam
-%     \item Mengeksplorasi teknik knowledge distillation untuk mengurangi ukuran model tanpa mengorbankan akurasi
-%     \item Menguji model dengan quantization untuk meningkatkan kecepatan inferensi
-%     \item Melakukan fine-tuning hyperparameter yang lebih mendalam
-%     \item Mengimplementasikan teknik ensemble untuk meningkatkan performa
-% \end{enumerate}
+
+\begin{enumerate}
+    \item \textbf{Optimasi Deployment}: Implementasi quantization (INT8/FP16), knowledge distillation, dan pruning untuk meningkatkan efisiensi tanpa degradasi akurasi signifikan
+    
+    \item \textbf{Dataset Diversity}: Evaluasi pada dataset dengan karakteristik berbeda (resolusi lebih tinggi, lebih banyak kelas, class imbalance, fine-grained categories)
+    
+    \item \textbf{Arsitektur Terbaru}: Eksplorasi varian modern seperti BEiT, MAE, DINOv2 (self-supervised), dan lightweight models (MobileViT, EfficientFormer)
+    
+    \item \textbf{Ensemble \& Robustness}: Implementasi model ensemble, adversarial training, dan evaluasi out-of-distribution detection
+    
+    \item \textbf{Interpretability}: Attention visualization, Grad-CAM, dan analisis feature representations untuk memahami keputusan model
+    
+    \item \textbf{Hyperparameter Tuning}: Extensive search untuk learning rate schedule, augmentation strategy, dan regularization parameters, terutama optimasi distillation strategy untuk DeiT pada STL-10
+\end{enumerate}

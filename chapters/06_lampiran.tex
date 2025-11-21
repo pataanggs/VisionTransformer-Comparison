@@ -5,66 +5,238 @@
 \subsection*{A. Source Code}
 \addcontentsline{toc}{subsection}{A. Source Code}
 
-% Masukkan source code penting di sini menggunakan lstlisting
-% Contoh:
+\subsubsection*{A.1 Import dan Setup Environment}
+\begin{lstlisting}[language=Python, caption=Import Libraries dan Setup Environment, basicstyle=\tiny\ttfamily]
+import os
+import time
+import gc
+import psutil
+import random
+from datetime import datetime
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, random_split
+import torchvision.transforms as transforms
+from torchvision.datasets import STL10
+import timm
+from timm import create_model
+from sklearn.metrics import (accuracy_score, precision_recall_fscore_support,
+                           confusion_matrix, classification_report)
+import warnings
 
-% \subsubsection*{A.1 Konfigurasi Model}
-% \begin{lstlisting}[language=Python, caption=Konfigurasi Model ViT]
-% import timm
-% 
-% model = timm.create_model(
-%     'vit_base_patch16_224',
-%     pretrained=True,
-%     num_classes=10
-% )
-% \end{lstlisting}
+# Setup Tampilan & Warning
+warnings.filterwarnings('ignore')
+plt.style.use('seaborn-v0_8-whitegrid')
+pd.set_option('display.max_columns', None)
 
-% \subsubsection*{A.2 Training Loop}
-% \begin{lstlisting}[language=Python, caption=Main Training Loop]
-% for epoch in range(num_epochs):
-%     model.train()
-%     for batch in train_loader:
-%         # Training code here
-%         pass
-% \end{lstlisting}
+# Random Seed untuk Reproducibility
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = True
+
+set_seed(42)
+\end{lstlisting}
+
+\subsubsection*{A.2 Konfigurasi Model}
+\begin{lstlisting}[language=Python, caption=Hyperparameters dan Model Configuration, basicstyle=\tiny\ttfamily]
+# Hyperparameters (Disesuaikan untuk GPU A40)
+BATCH_SIZE = 64      # Aman untuk model Base di GPU 40GB+
+NUM_WORKERS = 8      # Optimal untuk 9 vCPU
+EPOCHS = 20          # Jumlah epoch training
+LR = 3e-5            # Learning rate kecil untuk fine-tuning
+IMG_SIZE = 224
+
+# Daftar Model (Varian BASE)
+MODELS_CONFIG = {
+    'DeiT Base': 'deit_base_patch16_224',       # ~86M Params
+    'ViT Base':  'vit_base_patch16_224',        # ~86M Params
+    'Swin Base': 'swin_base_patch4_window7_224' # ~88M Params
+}
+\end{lstlisting}
+
+\subsubsection*{A.3 Data Loading dan Augmentation}
+\begin{lstlisting}[language=Python, caption=Dataset Loading dan Data Augmentation, basicstyle=\tiny\ttfamily]
+imagenet_mean = [0.485, 0.456, 0.406]
+imagenet_std = [0.229, 0.224, 0.225]
+
+# Augmentasi Data
+train_transform = transforms.Compose([
+    transforms.Resize((IMG_SIZE, IMG_SIZE)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomRotation(15),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(imagenet_mean, imagenet_std)
+])
+
+val_test_transform = transforms.Compose([
+    transforms.Resize((IMG_SIZE, IMG_SIZE)),
+    transforms.ToTensor(),
+    transforms.Normalize(imagenet_mean, imagenet_std)
+])
+
+# Load STL-10 Dataset
+train_full = STL10(root='./data', split='train', 
+                   download=True, transform=train_transform)
+test_ds = STL10(root='./data', split='test', 
+                download=True, transform=val_test_transform)
+
+# Split Train/Val (80% Train, 20% Val)
+train_size = int(0.8 * len(train_full))
+val_size = len(train_full) - train_size
+train_ds, val_ds = random_split(train_full, [train_size, val_size])
+
+# Dataloaders
+train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, 
+                          shuffle=True, num_workers=NUM_WORKERS,
+                          pin_memory=True, prefetch_factor=2)
+val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, 
+                        shuffle=False, num_workers=NUM_WORKERS,
+                        pin_memory=True)
+test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, 
+                         shuffle=False, num_workers=NUM_WORKERS,
+                         pin_memory=True)
+\end{lstlisting}
+
+\subsubsection*{A.4 Training Loop}
+\begin{lstlisting}[language=Python, caption=Main Training Loop, basicstyle=\tiny\ttfamily]
+def train_one_epoch(model, loader, criterion, optimizer, scaler):
+    model.train()
+    running_loss = 0.0
+    correct = 0
+    total = 0
+    
+    for images, labels in loader:
+        images, labels = images.to(device), labels.to(device)
+        
+        optimizer.zero_grad()
+        with torch.cuda.amp.autocast():
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
+        
+        running_loss += loss.item() * images.size(0)
+        _, predicted = outputs.max(1)
+        total += labels.size(0)
+        correct += predicted.eq(labels).sum().item()
+        
+    return running_loss / total, 100. * correct / total
+\end{lstlisting}
+
+\clearpage
 
 \subsection*{B. Output Training Log}
 \addcontentsline{toc}{subsection}{B. Output Training Log}
 
-% Masukkan output training log atau tabel training progress
-% Contoh:
+\subsubsection*{B.1 DeiT Base Training Log}
+\begin{table}[h]
+\caption{Training Log DeiT Base (20 Epochs)}
+\label{tab:training-log-deit}
+\centering
+\tiny
+\begin{tabular}{cccccc}
+\hline
+\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Acc (\%)} & \textbf{Val Loss} & \textbf{Val Acc (\%)} \\ \hline
+1 & 0.7940 & 82.83 & 0.1556 & 97.00 \\
+2 & 0.0477 & 99.63 & 0.0990 & 97.60 \\
+3 & 0.0101 & 100.00 & 0.0859 & 97.70 \\
+4 & 0.0046 & 100.00 & 0.0888 & 97.40 \\
+5 & 0.0030 & 100.00 & 0.0902 & 97.40 \\
+6 & 0.0022 & 100.00 & 0.0929 & 97.30 \\
+7 & 0.0017 & 100.00 & 0.0927 & 97.40 \\
+8 & 0.0014 & 100.00 & 0.0954 & 97.50 \\
+9 & 0.0012 & 100.00 & 0.0966 & 97.40 \\
+10 & 0.0010 & 100.00 & 0.0973 & 97.40 \\
+20 & 0.0006 & 100.00 & 0.1015 & 97.30 \\
+\hline
+\multicolumn{5}{l}{\textbf{Test Accuracy: 98.11\%} | \textbf{Throughput: 389.9 img/s}} \\
+\hline
+\end{tabular}
+\end{table}
 
-% \begin{table}[h]
-% \caption{Training Log Model Terbaik}
-% \label{tab:training-log}
-% \centering
-% \begin{tabular}{cccccc}
-% \hline
-% \textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Acc} & \textbf{Val Loss} & \textbf{Val Acc} & \textbf{LR} \\ \hline
-% 1 & 2.301 & 10.5 & 2.298 & 11.2 & 0.001 \\
-% 10 & 1.526 & 45.8 & 1.612 & 42.3 & 0.001 \\
-% 50 & 0.342 & 88.6 & 0.456 & 85.4 & 0.0001 \\
-% 100 & 0.123 & 96.2 & 0.234 & 92.8 & 0.00001 \\
-% \hline
-% \end{tabular}
-% \end{table}
+\subsubsection*{B.2 ViT Base Training Log}
+\begin{table}[h]
+\caption{Training Log ViT Base (20 Epochs)}
+\label{tab:training-log-vit}
+\centering
+\tiny
+\begin{tabular}{cccccc}
+\hline
+\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Acc (\%)} & \textbf{Val Loss} & \textbf{Val Acc (\%)} \\ \hline
+1 & 0.3315 & 90.00 & 0.0770 & 98.20 \\
+2 & 0.0160 & 99.58 & 0.0591 & 98.80 \\
+3 & 0.0176 & 99.45 & 0.0579 & 98.20 \\
+4 & 0.0046 & 99.90 & 0.0530 & 98.70 \\
+5 & 0.0082 & 99.80 & 0.0532 & 98.40 \\
+6 & 0.0020 & 99.95 & 0.0378 & 98.90 \\
+7 & 0.0003 & 100.00 & 0.0376 & 99.00 \\
+8 & 0.0002 & 100.00 & 0.0379 & 99.00 \\
+9 & 0.0001 & 100.00 & 0.0380 & 99.10 \\
+10 & 0.0001 & 100.00 & 0.0382 & 99.10 \\
+20 & 0.0001 & 100.00 & 0.0383 & 99.00 \\
+\hline
+\multicolumn{5}{l}{\textbf{Test Accuracy: 99.08\%} | \textbf{Throughput: 388.8 img/s}} \\
+\hline
+\end{tabular}
+\end{table}
 
-\subsection*{C. Screenshot Hasil Eksperimen}
-\addcontentsline{toc}{subsection}{C. Screenshot Hasil Eksperimen}
+\subsubsection*{B.3 Swin Base Training Log}
+\begin{table}[h]
+\caption{Training Log Swin Base (20 Epochs)}
+\label{tab:training-log-swin}
+\centering
+\tiny
+\begin{tabular}{cccccc}
+\hline
+\textbf{Epoch} & \textbf{Train Loss} & \textbf{Train Acc (\%)} & \textbf{Val Loss} & \textbf{Val Acc (\%)} \\ \hline
+1 & 0.5762 & 85.80 & 0.0488 & 98.40 \\
+2 & 0.0203 & 99.63 & 0.0438 & 98.40 \\
+3 & 0.0064 & 99.95 & 0.0495 & 98.40 \\
+4 & 0.0030 & 100.00 & 0.0478 & 98.50 \\
+5 & 0.0025 & 99.98 & 0.0524 & 98.60 \\
+6 & 0.0016 & 100.00 & 0.0474 & 99.00 \\
+7 & 0.0012 & 100.00 & 0.0532 & 98.50 \\
+8 & 0.0011 & 100.00 & 0.0520 & 99.00 \\
+9 & 0.0007 & 100.00 & 0.0616 & 98.70 \\
+10 & 0.0014 & 100.00 & 0.0609 & 98.70 \\
+20 & 0.0005 & 100.00 & 0.0659 & 98.50 \\
+\hline
+\multicolumn{5}{l}{\textbf{Test Accuracy: 99.36\%} | \textbf{Throughput: 292.6 img/s}} \\
+\hline
+\end{tabular}
+\end{table}
 
-% Masukkan screenshot hasil eksperimen
-% Contoh:
+\clearpage
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figure/experiment_dashboard.png}
-%     \caption{Dashboard Eksperimen (Weights \& Biases)}
-%     \label{fig:dashboard}
-% \end{figure}
+\subsection*{Google Drive Folder isi Weights}
+\addcontentsline{toc}{subsection}{D. Google Drive Folder isi Weights}
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figure/tensorboard_screenshot.png}
-%     \caption{Visualisasi Training di TensorBoard}
-%     \label{fig:tensorboard}
-% \end{figure}
+\subsubsection*{Link Google Drive Berisi Weights}
+\url{https://drive.google.com/drive/folders/1ZFYb8suViXVsruRy3Uq4W_j-8iY0hJKi?usp=sharing}
+
+\subsubsection*{Link Github Repository}
+\url{https://github.com/pataanggs/VisionTransformer-Comparison}
+
+\subsection*{Percakapan dengan LLM}
+\addcontentsline{toc}{subsection}{Percakapan dengan LLM}
+\subsubsection*{Link Percakapan}
+Untuk transparansi penuh, beberapa percakapan penting dapat diakses di:
+\begin{itemize}
+    \item Gemini: \url{https://gemini.google.com/share/f1c3bf2b475b}
+    \item Claude: \url{https://claude.ai/share/8a89ddbb-bc92-4593-82e2-f6c23d5cd7a3}
+    \item Claude: \url{https://claude.ai/share/1f8a9633-8b2d-4f14-8f1b-92ac054b5024}
+    \item Claude: \url{https://claude.ai/share/dad30974-f724-4fce-b270-ebecbd659f9f}
+\end{itemize}
+

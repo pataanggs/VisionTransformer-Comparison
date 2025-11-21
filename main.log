@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.19)  21 NOV 2025 14:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.19)  21 NOV 2025 22:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -923,7 +923,7 @@ Package hyperref Info: Link coloring ON on input line 110.
 
 \c@lstlisting=\count407
  (./chapters/cover.tex
-<Figure/ifitera-header.png, id=252, 1747.52875pt x 339.2675pt>
+<Figure/ifitera-header.png, id=264, 1747.52875pt x 339.2675pt>
 File: Figure/ifitera-header.png Graphic file (type png)
 <use Figure/ifitera-header.png>
 Package pdftex.def Info: Figure/ifitera-header.png  used on input line 4.
@@ -933,25 +933,25 @@ Non-PDF special ignored!
 <special> header=psfrag.pro
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./Figure/ifitera-header.png>] [2]) (./chapters/02_landasan_teori.tex
-<Figure/transformer_1.pdf, id=288, 1244.65pt x 1760.5775pt>
+<Figure/transformer_1.pdf, id=300, 1244.65pt x 1760.5775pt>
 File: Figure/transformer_1.pdf Graphic file (type pdf)
 <use Figure/transformer_1.pdf>
 Package pdftex.def Info: Figure/transformer_1.pdf  used on input line 11.
 (pdftex.def)             Requested size: 145.11053pt x 205.2426pt.
  [3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<Figure/transformer_self-attention_visualization.pdf, id=303, 1244.65pt x 1760.5775pt>
+<Figure/transformer_self-attention_visualization.pdf, id=315, 1244.65pt x 1760.5775pt>
 File: Figure/transformer_self-attention_visualization.pdf Graphic file (type pdf)
 <use Figure/transformer_self-attention_visualization.pdf>
 Package pdftex.def Info: Figure/transformer_self-attention_visualization.pdf  used on input line 29.
 (pdftex.def)             Requested size: 145.11053pt x 205.2426pt.
  [4 <./Figure/transformer_1.pdf>]
-<Figure/vision-transformer-vit.pdf, id=323, 1244.65pt x 1760.5775pt>
+<Figure/vision-transformer-vit.pdf, id=335, 1244.65pt x 1760.5775pt>
 File: Figure/vision-transformer-vit.pdf Graphic file (type pdf)
 <use Figure/vision-transformer-vit.pdf>
 Package pdftex.def Info: Figure/vision-transformer-vit.pdf  used on input line 70.
 (pdftex.def)             Requested size: 266.03474pt x 376.31392pt.
  [5 <./Figure/transformer_self-attention_visualization.pdf>] [6 <./Figure/vision-transformer-vit.pdf>]
-<Figure/swin-transformer.pdf, id=361, 793.05084pt x 1121.78093pt>
+<Figure/swin-transformer.pdf, id=374, 793.05084pt x 1121.78093pt>
 File: Figure/swin-transformer.pdf Graphic file (type pdf)
 <use Figure/swin-transformer.pdf>
 Package pdftex.def Info: Figure/swin-transformer.pdf  used on input line 142.
@@ -981,12 +981,114 @@ Underfull \hbox (badness 10000) in paragraph at lines 384--384
 []\T1/cmr/m/n/10.95 (+20) Masih memi-liki kom-plek-si-tas
  []
 
-) [11] (./chapters/03_metodologi.tex [12]) (./chapters/04_hasil_analisis.tex
+) [11] (./chapters/03_metodologi.tex [12]
+LaTeX Font Info:    Trying to load font information for T1+fvm on input line 54.
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/bera/t1fvm.fd
+File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
+)
+LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
+(Font)              scaled to size 9.85492pt on input line 54.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `fvm' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./chapters/05_kesimpulan.tex) [13] [14] (./main.bbl) [15] (./chapters/06_lampiran.tex) [16]
-runsystem(latexminted cleantemp  --timestamp 20251121144707 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+[13] [14{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]) (./chapters/04_hasil_analisis.tex [15]
+<Figure/learning_curves.pdf, id=465, 3902.58pt x 2168.1pt>
+File: Figure/learning_curves.pdf Graphic file (type pdf)
+<use Figure/learning_curves.pdf>
+Package pdftex.def Info: Figure/learning_curves.pdf  used on input line 66.
+(pdftex.def)             Requested size: 483.69687pt x 268.69606pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Figure/ViT_Base_Loss_Trend.pdf, id=467, 1852.28009pt x 1183.05992pt>
+File: Figure/ViT_Base_Loss_Trend.pdf Graphic file (type pdf)
+<use Figure/ViT_Base_Loss_Trend.pdf>
+Package pdftex.def Info: Figure/ViT_Base_Loss_Trend.pdf  used on input line 77.
+(pdftex.def)             Requested size: 232.17242pt x 148.27927pt.
+<Figure/ViT_Base_Accuracy_Trend.pdf, id=468, 1841.43965pt x 1183.05992pt>
+File: Figure/ViT_Base_Accuracy_Trend.pdf Graphic file (type pdf)
+<use Figure/ViT_Base_Accuracy_Trend.pdf>
+Package pdftex.def Info: Figure/ViT_Base_Accuracy_Trend.pdf  used on input line 82.
+(pdftex.def)             Requested size: 232.17242pt x 149.14577pt.
+[16]
+<Figure/DeiT_Base_Loss_Trend.pdf, id=477, 1831.32178pt x 1183.05992pt>
+File: Figure/DeiT_Base_Loss_Trend.pdf Graphic file (type pdf)
+<use Figure/DeiT_Base_Loss_Trend.pdf>
+Package pdftex.def Info: Figure/DeiT_Base_Loss_Trend.pdf  used on input line 92.
+(pdftex.def)             Requested size: 232.17242pt x 149.97615pt.
+<Figure/DeiT_Base_Accuracy_Trend.pdf, id=478, 1841.43965pt x 1183.05992pt>
+File: Figure/DeiT_Base_Accuracy_Trend.pdf Graphic file (type pdf)
+<use Figure/DeiT_Base_Accuracy_Trend.pdf>
+Package pdftex.def Info: Figure/DeiT_Base_Accuracy_Trend.pdf  used on input line 97.
+(pdftex.def)             Requested size: 232.17242pt x 149.14577pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Figure/Swin_Base_Loss_Trend.pdf, id=479, 1831.32178pt x 1183.05992pt>
+File: Figure/Swin_Base_Loss_Trend.pdf Graphic file (type pdf)
+<use Figure/Swin_Base_Loss_Trend.pdf>
+Package pdftex.def Info: Figure/Swin_Base_Loss_Trend.pdf  used on input line 107.
+(pdftex.def)             Requested size: 232.17242pt x 149.97615pt.
+<Figure/Swin_Base_Accuracy_Trend.pdf, id=480, 1841.43965pt x 1183.05992pt>
+File: Figure/Swin_Base_Accuracy_Trend.pdf Graphic file (type pdf)
+<use Figure/Swin_Base_Accuracy_Trend.pdf>
+Package pdftex.def Info: Figure/Swin_Base_Accuracy_Trend.pdf  used on input line 112.
+(pdftex.def)             Requested size: 232.17242pt x 149.14577pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Figure/confusion_matrices.pdf, id=481, 5203.44pt x 1517.67pt>
+File: Figure/confusion_matrices.pdf Graphic file (type pdf)
+<use Figure/confusion_matrices.pdf>
+Package pdftex.def Info: Figure/confusion_matrices.pdf  used on input line 122.
+(pdftex.def)             Requested size: 483.69687pt x 141.07701pt.
+[17 <./Figure/learning_curves.pdf> <./Figure/ViT_Base_Loss_Trend.pdf> <./Figure/ViT_Base_Accuracy_Trend.pdf>] [18 <./Figure/DeiT_Base_Loss_Trend.pdf> <./Figure/DeiT_Base_Accuracy_Trend.pdf> <./Figure/Swin_Base_Loss_Trend.pdf> <./Figure/Swin_Base_Accuracy_Trend.pdf> <./Figure/confusion_matrices.pdf>]) (./chapters/05_kesimpulan.tex
+Underfull \hbox (badness 2941) in paragraph at lines 28--29
+[]|\T1/cmr/m/it/10.95 (+20) Medical imag-ing, qual-ity con-trol, au-
+ []
+
+
+Underfull \hbox (badness 5802) in paragraph at lines 36--37
+\T1/cmr/m/it/10.95 (+20) AR/VR \T1/cmr/m/n/10.95 (+20) Through-put tert-inggi (389.9
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[19]) [20] (./main.bbl) [21] (./chapters/06_lampiran.tex (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11a listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 9.
+LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
+(Font)              scaled to size 5.39996pt on input line 9.
+LaTeX Font Info:    Trying to load font information for TS1+fvm on input line 33.
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/bera/ts1fvm.fd
+File: ts1fvm.fd 2004/09/07 scalable font definitions for TS1/fvm.
+)
+LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
+(Font)              scaled to size 5.39996pt on input line 33.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `fvm' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [22] [23] [24
+
+]
+Overfull \hbox (15.14682pt too wide) in paragraph at lines 227--228
+[][]$\T1/fvm/m/n/10.95 https : / / drive . google . com / drive / folders / 1ZFYb8suViXVsruRy3Uq4W _ j-[]8iY0hJKi ? usp = sharing$[][] 
+ []
+
+) [25
+
+]
+runsystem(latexminted cleantemp  --timestamp 20251121223222 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
 
  (./main.aux)
  ***********
@@ -994,21 +1096,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 1C7739326447712F2647BC375C7E6CFE;10677.
+(rerunfilecheck)             Checksum: 8BA6019315387113A0AABF8664174733;11229.
  ) 
 Here is how much of TeX's memory you used:
- 35089 strings out of 467538
- 667522 string characters out of 5419551
- 1356714 words of memory out of 5000000
- 63098 multiletter control sequences out of 15000+600000
- 649166 words of font info for 160 fonts, out of 8000000 for 9000
+ 36005 strings out of 467538
+ 679596 string characters out of 5419551
+ 1868214 words of memory out of 5000000
+ 63760 multiletter control sequences out of 15000+600000
+ 655302 words of font info for 206 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 94i,12n,94p,3286b,740s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb>
-Output written on main.pdf (16 pages, 1554475 bytes).
+ 94i,12n,94p,3286b,2077s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb>
+Output written on main.pdf (25 pages, 3786929 bytes).
 PDF statistics:
- 570 PDF objects out of 1000 (max. 8388607)
- 494 compressed objects within 5 object streams
- 138 named destinations out of 1000 (max. 500000)
- 37390 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 858 PDF objects out of 1000 (max. 8388607)
+ 748 compressed objects within 8 object streams
+ 302 named destinations out of 1000 (max. 500000)
+ 45134 words of extra memory for PDF output out of 51595 (max. 10000000)
 

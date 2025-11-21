@@ -1,116 +1,147 @@
 % BAB IV - HASIL DAN ANALISIS
 \section{Hasil dan Analisis}
 
+Bab ini menyajikan hasil evaluasi tiga model Vision Transformer (ViT Base, DeiT Base, Swin Base) pada dataset STL-10 dengan 20 epoch pelatihan, meliputi perbandingan parameter, metrik performa, waktu inferensi, visualisasi, dan analisis mendalam
+
 \subsection{Perbandingan Jumlah Parameter}
-% Tabel perbandingan jumlah parameter
 
 \begin{table}[h]
-\caption{Perbandingan Jumlah Parameter}
+\caption{Perbandingan Jumlah Parameter dan Ukuran Model}
 \label{tab:params}
 \centering
 \begin{tabular}{lrr}
 \hline
-\textbf{Model} & \textbf{Parameters (M)} & \textbf{FLOPs (G)} \\ \hline
-Model 1 & - & - \\
-Model 2 & - & - \\
-Model 3 & - & - \\
+\textbf{Model} & \textbf{Total Parameters} & \textbf{Model Size (MB)} \\ \hline
+DeiT Base & 85,806,346 & 327.33 \\
+ViT Base & 85,806,346 & 327.33 \\
+Swin Base & 86,753,474 & 332.44 \\
 \hline
 \end{tabular}
 \end{table}
 
+DeiT Base dan ViT Base memiliki parameter identik (85.8M, 327.33 MB), sementara Swin Base sedikit lebih besar (86.7M, 332.44 MB). Perbedaan hanya 1.1\%, sehingga ketiga model setara dalam kompleksitas arsitektur.
+
 \subsection{Perbandingan Metrik Performa}
-% Tabel perbandingan metrik performa
 
 \begin{table}[h]
-\caption{Perbandingan Metrik Performa}
+\caption{Perbandingan Metrik Performa pada Test Set}
 \label{tab:performance}
 \centering
 \begin{tabular}{lcccc}
 \hline
-\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Precision (\%)} & \textbf{Recall (\%)} & \textbf{F1-Score (\%)} \\ \hline
-Model 1 & - & - & - & - \\
-Model 2 & - & - & - & - \\
-Model 3 & - & - & - & - \\
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{Macro F1-Score} & \textbf{Training Time (min)} \\ \hline
+DeiT Base & 98.11 & 0.9811 & 5.5 \\
+ViT Base & 99.08 & 0.9907 & 5.5 \\
+Swin Base & 99.36 & 0.9936 & 8.5 \\
 \hline
 \end{tabular}
 \end{table}
 
+Swin Base mencapai akurasi tertinggi (99.36\%), diikuti ViT Base (99.08\%) dan DeiT Base (98.11\%). Perbedaan akurasi kecil (1.25\%) menunjukkan semua model efektif untuk STL-10. Swin Base memerlukan waktu training 54\% lebih lama (8.5 vs 5.5 menit) karena kompleksitas shifted window attention.
+
 \subsection{Perbandingan Waktu Inferensi}
-% Tabel perbandingan waktu inferensi
 
 \begin{table}[h]
-\caption{Perbandingan Waktu Inferensi}
+\caption{Perbandingan Waktu Inferensi dan Throughput}
 \label{tab:inference}
 \centering
 \begin{tabular}{lcc}
 \hline
-\textbf{Model} & \textbf{Inference Time (ms)} & \textbf{Throughput (images/s)} \\ \hline
-Model 1 & - & - \\
-Model 2 & - & - \\
-Model 3 & - & - \\
+\textbf{Model} & \textbf{Inference Time (ms/image)} & \textbf{Throughput (images/s)} \\ \hline
+DeiT Base & 2.56 & 389.9 \\
+ViT Base & 2.57 & 388.8 \\
+Swin Base & 3.42 & 292.6 \\
 \hline
 \end{tabular}
 \end{table}
 
+DeiT Base dan ViT Base memiliki kecepatan hampir identik (388-389 images/s, ~2.56 ms/gambar), sedangkan Swin Base 33\% lebih lambat (292.6 images/s, 3.42 ms/gambar) karena overhead shifted window attention.
+
 \subsection{Visualisasi}
 
 \subsubsection{Kurva Learning}
-% Gambar kurva learning (training vs validation loss/accuracy)
-% Contoh:
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{Figure/learning_curves.png}
-%     \caption{Kurva Learning: Training dan Validation Loss}
-%     \label{fig:learning-curves}
-% \end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figure/learning_curves.pdf}
+    \caption{Kurva Learning: Loss dan Accuracy pada Training dan Validation Set}
+    \label{fig:learning-curves}
+\end{figure}
+
+Gambar \ref{fig:learning-curves} menunjukkan: (1) Semua model konvergen dengan training loss mendekati 0 dan training accuracy 100\%, (2) Validation accuracy: Swin Base (99.36\%), ViT Base (99.08\%), DeiT Base (98.11\%), (3) DeiT Base memiliki validation loss lebih tinggi (~0.10 vs ~0.038-0.065), mengindikasikan gap yang lebih besar antara training dan validation, (4) Overfitting minimal pada semua model.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/ViT_Base_Loss_Trend.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/ViT_Base_Accuracy_Trend.pdf}
+    \end{minipage}
+    \caption{Kurva Loss dan Accuracy untuk ViT Base}
+    \label{fig:vit-curves}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/DeiT_Base_Loss_Trend.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/DeiT_Base_Accuracy_Trend.pdf}
+    \end{minipage}
+    \caption{Kurva Loss dan Accuracy untuk DeiT Base}
+    \label{fig:deit-curves}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/Swin_Base_Loss_Trend.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/Swin_Base_Accuracy_Trend.pdf}
+    \end{minipage}
+    \caption{Kurva Loss dan Accuracy untuk Swin Base}
+    \label{fig:swin-curves}
+\end{figure}
 
 \subsubsection{Confusion Matrix}
-% Gambar confusion matrix
-% Contoh:
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{Figure/confusion_matrix.png}
-%     \caption{Confusion Matrix Model Terbaik}
-%     \label{fig:confusion-matrix}
-% \end{figure}
 
-\subsubsection{Contoh Prediksi}
-% Gambar contoh prediksi (benar dan salah)
-% \begin{figure}[h]
-% 	\centering
-% 	\begin{subfigure}[b]{0.3\textwidth}
-% 		\centering
-% 		\includegraphics[width=1\textwidth]{Figure/prediction1.png}
-% 		\caption{Prediksi Benar}
-% 		\label{fig:pred-correct}
-% 	\end{subfigure}
-% 	\hfill
-% 	\begin{subfigure}[b]{0.3\textwidth}
-% 		\centering
-% 		\includegraphics[width=1\textwidth]{Figure/prediction2.png}
-% 		\caption{Prediksi Salah}
-% 		\label{fig:pred-wrong}
-% 	\end{subfigure}
-% 	\caption{Contoh Hasil Prediksi}
-% 	\label{fig:predictions}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figure/confusion_matrices.pdf}
+    \caption{Confusion Matrix untuk DeiT Base, ViT Base, dan Swin Base}
+    \label{fig:confusion-matrices}
+\end{figure}
+
+Confusion matrix (Gambar \ref{fig:confusion-matrices}) menunjukkan Swin Base memiliki kesalahan minimal dengan prediksi terkonsentrasi pada diagonal utama. Kesalahan klasifikasi utama pada semua model terjadi antara kelas \textit{cat} dan \textit{dog} yang memiliki kemiripan visual tinggi, dengan Swin Base menunjukkan performa terbaik dalam membedakannya.
 
 \subsection{Analisis Mendalam}
 
 \subsubsection{Analisis Performa Model}
-% Analisis mengapa model A lebih baik dari model B
-% Contoh:
-% Model A menunjukkan performa yang lebih baik dibandingkan Model B dalam hal akurasi karena...
+
+Swin Base mencapai akurasi tertinggi (99.36\%) karena arsitektur hierarki dengan shifted window attention yang efektif menangkap fitur multi-scale pada resolusi menengah STL-10 (96$\times$96). ViT Base (99.08\%) menawarkan keseimbangan optimal dengan arsitektur sederhana dan global receptive field. DeiT Base (98.11\%) menunjukkan performa sedikit lebih rendah, kemungkinan karena distillation strategy yang kurang optimal untuk fine-tuning pada dataset kecil.
 
 \subsubsection{Trade-off Akurasi, Parameter, dan Kecepatan}
-% Analisis trade-off
-% Contoh:
-% \begin{itemize}
-%     \item Model dengan parameter terbanyak (Model X) memberikan akurasi tertinggi namun...
-%     \item Model dengan parameter paling sedikit (Model Y) memiliki waktu inferensi tercepat...
-% \end{itemize}
+
+Terdapat trade-off yang jelas: Swin Base memberikan akurasi maksimal (+1.25\% vs DeiT) dengan biaya kecepatan (-25\% throughput). ViT Base menawarkan sweet spot: akurasi tinggi (99.08\%, hanya -0.28\% vs Swin) dengan kecepatan cepat (33\% lebih cepat dari Swin). DeiT Base optimal untuk aplikasi real-time dengan throughput tertinggi (389.9 images/s).
+
+\textbf{Rekomendasi deployment}: (1) Cloud/server dengan prioritas akurasi: Swin Base, (2) Aplikasi umum dengan balance akurasi-kecepatan: ViT Base, (3) Real-time/edge devices: DeiT Base.
 
 \subsubsection{Kesesuaian Model dengan Dataset}
-% Analisis kesesuaian model dengan dataset yang digunakan
-% Contoh:
-% Berdasarkan karakteristik dataset yang digunakan, Model Z paling sesuai karena...
+
+STL-10 memiliki karakteristik: resolusi menengah (96$\times$96), 10 kelas, 5,000 training images (terbatas), dan variasi intra-class tinggi. 
+
+\textbf{Swin Base} paling sesuai karena hierarchical processing optimal untuk resolusi menengah dan kemampuan menangkap multi-scale features untuk membedakan kelas mirip. \textbf{ViT Base} efektif dengan global receptive field dan transfer learning yang baik dari ImageNet-21k. \textbf{DeiT Base} memiliki ruang optimasi melalui penyesuaian distillation strategy dan data augmentation untuk dataset kecil.
+
+Semua model menunjukkan arsitektur Vision Transformer sangat efektif untuk STL-10, dengan transfer learning dari ImageNet-21k berperan krusial mengingat keterbatasan training data.
