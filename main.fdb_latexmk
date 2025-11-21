@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1763739142.48487 "main.aux" "main.bbl" "main" 1763739144.64781 0
-  "./Referensi.bib" 1763708118.98343 7649 4ca75b44aac6f819f8fdaf45ed86caed ""
+["bibtex main"] 1763739724.91139 "main.aux" "main.bbl" "main" 1763739727.7298 0
+  "./Referensi.bib" 1763739653.83803 5142 3d4891928bd02275c0af626e0ed7f208 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1763739144.26445 15458 bc468e84b462d7ffde8b2845862b3c0c "pdflatex"
+  "main.aux" 1763739727.20324 15628 1b839c6fdc87e9d8cc37fb550be2fc28 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1763739142.60882 "/home/pataangg/Developer/VisionTransformer-Comparison/main.tex" "main.pdf" "main" 1763739144.64806 0
-  "/home/pataangg/Developer/VisionTransformer-Comparison/main.tex" 1763737845.98971 4347 dac6391203f3ba12951c2ab8ce04c02e ""
+["pdflatex"] 1763739725.12629 "/home/pataangg/Developer/VisionTransformer-Comparison/main.tex" "main.pdf" "main" 1763739727.72997 0
+  "/home/pataangg/Developer/VisionTransformer-Comparison/main.tex" 1763739719.84196 4416 80422b2b16c67353fe6230369127b342 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -291,15 +291,15 @@
   "Figure/vision-transformer-vit.pdf" 1763710867.85989 255794 5674ccdf98d0b2732bfcc9efafa0fcbe ""
   "chapters/01_pendahuluan.tex" 1763737746.85604 6664 27611af2ce341d961ba8374c4f99686f ""
   "chapters/02_landasan_teori.tex" 1763711224.84579 19590 9ef21c32a7e5ae59f4ae8b1c02eff1e5 ""
-  "chapters/03_metodologi.tex" 1763735219.82096 7405 3c11394618e4f5054d73a42dc661c0ea ""
+  "chapters/03_metodologi.tex" 1763739414.36503 7387 1278290a7414e67c64c0322e12de2a86 ""
   "chapters/04_hasil_analisis.tex" 1763738023.37652 6804 da0f2fea0c11a3eed6699d3c48ac966a ""
   "chapters/05_kesimpulan.tex" 1763737296.03293 3101 0f7b943b9b6533ba306b10f3a3ee3445 ""
   "chapters/06_lampiran.tex" 1763739137.69491 8262 ac00b0f2e2c6128a23fbe85c3c5f6cab ""
   "chapters/cover.tex" 1763716984.67167 922 3eff81d059dd0ade0d610befccc15da8 ""
-  "main.aux" 1763739144.26445 15458 bc468e84b462d7ffde8b2845862b3c0c "pdflatex"
-  "main.bbl" 1763739142.60245 3392 6e38637b593f2a092ba0c2bfa5b23769 "bibtex main"
-  "main.out" 1763739144.26545 11229 8ba6019315387113a0aabf8664174733 "pdflatex"
-  "main.tex" 1763737845.98971 4347 dac6391203f3ba12951c2ab8ce04c02e ""
+  "main.aux" 1763739727.20324 15628 1b839c6fdc87e9d8cc37fb550be2fc28 "pdflatex"
+  "main.bbl" 1763739725.118 5399 1904ac734413517f98a213669e01efd1 "bibtex main"
+  "main.out" 1763739727.20424 11229 8ba6019315387113a0aabf8664174733 "pdflatex"
+  "main.tex" 1763739719.84196 4416 80422b2b16c67353fe6230369127b342 ""
   (generated)
   "main.aux"
   "main.log"

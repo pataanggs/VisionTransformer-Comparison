@@ -1,3 +1,12 @@
+@article{vaswani2017attention,
+  title   = {Attention is All you Need},
+  author  = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, {\L}ukasz and Polosukhin, Illia},
+  journal = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume  = {30},
+  year    = {2017},
+  url     = {https://arxiv.org/abs/1706.03762}
+}
+
 @inproceedings{dosovitskiy2020image,
   title     = {An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
   author    = {Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and others},
@@ -34,15 +43,6 @@
   url       = {https://arxiv.org/abs/2111.06377}
 }
 
-@article{vaswani2017attention,
-  title   = {Attention is All you Need},
-  author  = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, {\L}ukasz and Polosukhin, Illia},
-  journal = {Advances in Neural Information Processing Systems (NeurIPS)},
-  volume  = {30},
-  year    = {2017},
-  url     = {https://arxiv.org/abs/1706.03762}
-}
-
 @inproceedings{krizhevsky2012imagenet,
   title     = {ImageNet Classification with Deep Convolutional Neural Networks},
   author    = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E},
@@ -59,108 +59,52 @@
   year      = {2016}
 }
 
-@article{khan2022transformers,
-  title     = {Transformers in Vision: A Survey},
-  author    = {Khan, Salman and Naseer, Muzammal and Hayat, Munawar and Zamir, Syed Waqas and Khan, Fahad Shahbaz and Shah, Mubarak},
-  journal   = {ACM Computing Surveys},
-  volume    = {54},
-  number    = {10s},
-  pages     = {1--41},
+@inproceedings{coates2011analysis,
+  title     = {An Analysis of Single-Layer Networks in Unsupervised Feature Learning},
+  author    = {Coates, Adam and Ng, Andrew and Lee, Honglak},
+  booktitle = {Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics (AISTATS)},
+  pages     = {215--223},
+  year      = {2011},
+  publisher = {JMLR Workshop and Conference Proceedings},
+  url       = {http://cs.stanford.edu/~acoates/stl10/},
+  note      = {Official STL-10 Dataset Source}
+}
+
+@inproceedings{lee2021vision,
+  title     = {Vision Transformers for Small-Size Datasets},
+  author    = {Lee, Seung Hoon and Lee, Seunghyun and Song, Byung Cheol},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  pages     = {1992--2001},
   year      = {2022},
-  publisher = {ACM New York, NY},
-  url       = {https://arxiv.org/abs/2101.01169}
+  doi       = {10.1109/WACV51455.2022.00204},
+  url       = {https://arxiv.org/abs/2112.13492}
 }
 
-@article{han2022survey,
-  title     = {A Survey on Vision Transformer},
-  author    = {Han, Kai and Wang, Yunhe and Chen, Hanting and Chen, Xinghao and Guo, Jianyuan and Liu, Zhenhua and Tang, Yehui and Xiao, An and Xu, Chunjing and Xu, Yixing and others},
-  journal   = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  volume    = {45},
-  number    = {1},
-  pages     = {87--110},
-  year      = {2022},
-  publisher = {IEEE},
-  url       = {https://arxiv.org/abs/2012.12556}
-}
-
-@inproceedings{deng2009imagenet,
-  title        = {ImageNet: A Large-scale Hierarchical Image Database},
-  author       = {Deng, Jia and Dong, Wei and Socher, Richard and Li, Li-Jia and Li, Kai and Fei-Fei, Li},
-  booktitle    = {2009 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-  pages        = {248--255},
-  year         = {2009},
-  organization = {IEEE}
-}
-
-@article{steiner2021train,
-  title   = {How to Train your ViT? Data, Augmentation, and Regularization in Vision Transformers},
-  author  = {Steiner, Andreas and Kolesnikov, Alexander and Zhai, Xiaohua and Wightman, Ross and Uszkoreit, Jakob and Beyer, Lucas},
-  journal = {arXiv preprint arXiv:2106.10270},
-  year    = {2021},
-  url     = {https://arxiv.org/abs/2106.10270}
-}
-
-@inproceedings{bao2021beit,
-  title     = {BEiT: BERT Pre-training of Image Transformers},
-  author    = {Bao, Hangbo and Dong, Li and Piao, Songhao and Wei, Furu},
+@inproceedings{loshchilov2017decoupled,
+  title     = {Decoupled Weight Decay Regularization},
+  author    = {Loshchilov, Ilya and Hutter, Frank},
   booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2022},
-  url       = {https://arxiv.org/abs/2106.08254}
+  year      = {2019},
+  url       = {https://arxiv.org/abs/1711.05101},
+  note      = {Primary reference for AdamW optimizer used in ViT/Swin/DeiT}
 }
 
-@article{chu2021twins,
-  title   = {Twins: Revisiting the Design of Spatial Attention in Vision Transformers},
-  author  = {Chu, Xiangxiang and Tian, Zhi and Wang, Yuqing and Zhang, Bo and Ren, Haibing and Wei, Xiaolin and Xia, Huaxia and Shen, Chunhua},
-  journal = {Advances in Neural Information Processing Systems (NeurIPS)},
-  volume  = {34},
-  pages   = {9355--9366},
-  year    = {2021},
-  url     = {https://arxiv.org/abs/2104.13840}
-}
-
-@inproceedings{yuan2021tokens,
-  title     = {Tokens-to-Token ViT: Training Vision Transformers from Scratch on ImageNet},
-  author    = {Yuan, Li and Chen, Yunpeng and Wang, Tao and Yu, Weihao and Shi, Yujun and Jiang, Zi-Hang and Tay, Francis EH and Feng, Jiashi and Yan, Shuicheng},
+@inproceedings{caron2021emerging,
+  title     = {Emerging Properties in Self-Supervised Vision Transformers},
+  author    = {Caron, Mathilde and Touvron, Hugo and Misra, Ishan and J{\'e}gou, Herv{\'e} and Mairal, Julien and Bojanowski, Piotr and Joulin, Armand},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
-  pages     = {558--567},
+  pages     = {9650--9660},
   year      = {2021},
-  url       = {https://arxiv.org/abs/2101.11986}
+  doi       = {10.1109/ICCV48922.2021.00951},
+  url       = {https://arxiv.org/abs/2104.14294}
 }
 
-@article{raghu2021vision,
-  title   = {Do Vision Transformers See Like Convolutional Neural Networks?},
-  author  = {Raghu, Maithra and Unterthiner, Thomas and Kornblith, Simon and Zhang, Chiyuan and Dosovitskiy, Alexey},
+@article{xiao2021early,
+  title   = {Early Convolutions Help Transformers See Better},
+  author  = {Xiao, Tete and Singh, Mannat and Mintun, Eric and Darrell, Trevor and Doll{\'a}r, Piotr and Girshick, Ross},
   journal = {Advances in Neural Information Processing Systems (NeurIPS)},
   volume  = {34},
-  pages   = {12116--12128},
+  pages   = {30392--30400},
   year    = {2021},
-  url     = {https://arxiv.org/abs/2108.08810}
-}
-
-@inproceedings{wu2021cvt,
-  title     = {CvT: Introducing Convolutions to Vision Transformers},
-  author    = {Wu, Haiping and Xiao, Bin and Codella, Noel and Liu, Mengchen and Dai, Xiyang and Yuan, Lu and Zhang, Lei},
-  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
-  pages     = {22--31},
-  year      = {2021},
-  url       = {https://arxiv.org/abs/2103.15808}
-}
-
-@article{dosovitskiy2021mlp,
-  title   = {MLP-Mixer: An All-MLP Architecture for Vision},
-  author  = {Tolstikhin, Ilya O and Houlsby, Neil and Kolesnikov, Alexander and Beyer, Lucas and Zhai, Xiaohua and Unterthiner, Thomas and Yung, Jessica and Steiner, Andreas and Keysers, Daniel and Uszkoreit, Jakob and others},
-  journal = {Advances in Neural Information Processing Systems (NeurIPS)},
-  volume  = {34},
-  pages   = {24261--24272},
-  year    = {2021},
-  url     = {https://arxiv.org/abs/2105.01601}
-}
-
-@article{liu2022swinv2,
-  title   = {Swin Transformer V2: Scaling Up Capacity and Resolution},
-  author  = {Liu, Ze and Hu, Han and Lin, Yutong and Yao, Zhuliang and Xie, Zhenda and Wei, Yixuan and Ning, Jia and Cao, Yue and Zhang, Zheng and Dong, Li and others},
-  journal = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  pages   = {12009--12019},
-  year    = {2022},
-  url     = {https://arxiv.org/abs/2111.09883}
+  url     = {https://arxiv.org/abs/2106.14881}
 }
